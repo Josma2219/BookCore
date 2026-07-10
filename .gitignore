@@ -1,0 +1,10 @@
+# Visual Studio
+.vs/
+
+# Compilaciones de .NET
+bin/
+obj/
+
+# Archivos personales de Visual Studio
+*.user
+*.suo
