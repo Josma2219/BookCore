@@ -1,0 +1,92 @@
+﻿@model BookCore.ViewModels.UsuarioBibliotecaViewModel
+
+@{
+    ViewData["Title"] = "Detalle del usuario";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Detalle del usuario</h1>
+
+            <p class="text-muted">
+                Información registrada para este usuario.
+            </p>
+        </div>
+
+        <dl class="row">
+            <dt class="col-sm-3">Nombre completo</dt>
+            <dd class="col-sm-9">@Model.NombreCompleto</dd>
+
+            <dt class="col-sm-3">Identificación</dt>
+            <dd class="col-sm-9">@Model.Cedula</dd>
+
+            <dt class="col-sm-3">Correo</dt>
+            <dd class="col-sm-9">
+                @if (string.IsNullOrWhiteSpace(Model.Correo))
+                {
+                    <span class="text-muted">No indicado</span>
+                }
+                else
+                {
+                    @Model.Correo
+                }
+            </dd>
+
+            <dt class="col-sm-3">Teléfono</dt>
+            <dd class="col-sm-9">
+                @if (string.IsNullOrWhiteSpace(Model.Telefono))
+                {
+                    <span class="text-muted">No indicado</span>
+                }
+                else
+                {
+                    @Model.Telefono
+                }
+            </dd>
+
+            <dt class="col-sm-3">Dirección</dt>
+            <dd class="col-sm-9">
+                @if (string.IsNullOrWhiteSpace(Model.Direccion))
+                {
+                    <span class="text-muted">No indicada</span>
+                }
+                else
+                {
+                    @Model.Direccion
+                }
+            </dd>
+
+            <dt class="col-sm-3">Estado</dt>
+            <dd class="col-sm-9">
+                @if (Model.Activo)
+                {
+                    <span class="badge bg-success">Activo</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">Inactivo</span>
+                }
+            </dd>
+
+            <dt class="col-sm-3">Fecha de registro</dt>
+            <dd class="col-sm-9">
+                @(Model.FechaRegistro.ToString("dd/MM/yyyy HH:mm"))
+            </dd>
+        </dl>
+
+        <div class="d-flex gap-2 mt-4">
+            <a asp-action="Editar"
+               asp-route-id="@Model.UsuarioBibliotecaId"
+               class="btn btn-primary">
+                Editar
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
+                Volver
+            </a>
+        </div>
+    </div>
+</div>

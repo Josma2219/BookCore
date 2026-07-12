@@ -30,6 +30,9 @@ namespace BookCore.Controllers
             ViewBag.TotalAutores = await _contexto
                 .Set<Autor>()
                 .CountAsync();
+            ViewBag.TotalUsuarios = await _contexto
+    .Set<UsuarioBiblioteca>()
+    .CountAsync();
 
             return View();
         }

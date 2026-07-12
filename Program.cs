@@ -23,6 +23,11 @@ constructor.Services.AddScoped<
     IAutorServicio,
     AutorServicio>();
 
+// Este servicio maneja los usuarios que solicitan libros.
+constructor.Services.AddScoped<
+    IUsuarioBibliotecaServicio,
+    UsuarioBibliotecaServicio>();
+
 constructor.Services.AddControllersWithViews();
 
 var aplicacion = constructor.Build();
