@@ -1,0 +1,41 @@
+﻿@model BookCore.ViewModels.AutorViewModel
+
+@{
+    ViewData["Title"] = "Crear autor";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Crear autor</h1>
+
+            <p class="text-muted">
+                Registra un nuevo autor en la biblioteca.
+            </p>
+        </div>
+
+        <form asp-action="Crear"
+              method="post">
+
+            <partial name="_Formulario"
+                     model="Model" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Guardar autor
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

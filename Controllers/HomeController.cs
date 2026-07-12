@@ -18,14 +18,17 @@ namespace BookCore.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Esta consulta confirma que la app puede leer la tabla Libro.
+            // Estos contadores luego serán parte del dashboard.
             ViewBag.TotalLibros = await _contexto
                 .Set<Libro>()
                 .CountAsync();
 
-            // Este contador nos confirma que también podemos leer las categorías.
             ViewBag.TotalCategorias = await _contexto
                 .Set<Categoria>()
+                .CountAsync();
+
+            ViewBag.TotalAutores = await _contexto
+                .Set<Autor>()
                 .CountAsync();
 
             return View();

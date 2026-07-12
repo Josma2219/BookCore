@@ -1,4 +1,5 @@
 using BookCore.Data;
+using BookCore.Services;
 using Microsoft.EntityFrameworkCore;
 
 var constructor = WebApplication.CreateBuilder(args);
@@ -8,9 +9,19 @@ var cadenaConexion = constructor.Configuration
     ?? throw new InvalidOperationException(
         "No se encontró la conexión ConexionBookCore en appsettings.json.");
 
-// Aquí dejamos conectado Entity Framework con la base BookCore.
+// Conectamos Entity Framework con la base de datos BookCore.
 constructor.Services.AddDbContext<BookCoreContexto>(opciones =>
     opciones.UseSqlServer(cadenaConexion));
+
+// Servicio que maneja el módulo de categorías.
+constructor.Services.AddScoped<
+    ICategoriaServicio,
+    CategoriaServicio>();
+
+// Servicio que maneja el módulo de autores.
+constructor.Services.AddScoped<
+    IAutorServicio,
+    AutorServicio>();
 
 constructor.Services.AddControllersWithViews();
 
