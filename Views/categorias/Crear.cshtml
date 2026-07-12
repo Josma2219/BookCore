@@ -1,0 +1,40 @@
+﻿@model BookCore.ViewModels.CategoriaViewModel
+
+@{
+    ViewData["Title"] = "Crear categoría";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Crear categoría</h1>
+
+            <p class="text-muted">
+                Registra una nueva categoría para organizar los libros.
+            </p>
+        </div>
+
+        <form asp-action="Crear" method="post">
+
+            <partial name="_Formulario" model="Model" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Guardar categoría
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

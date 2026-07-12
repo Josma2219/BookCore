@@ -1,4 +1,31 @@
+<<<<<<< Updated upstream
 namespace BookCore
+=======
+using BookCore.Data;
+using Microsoft.EntityFrameworkCore;
+using BookCore.Services;
+
+var constructor = WebApplication.CreateBuilder(args);
+
+var cadenaConexion = constructor.Configuration
+    .GetConnectionString("ConexionBookCore")
+    ?? throw new InvalidOperationException(
+        "No se encontró la conexión ConexionBookCore en appsettings.json.");
+
+// Aquí dejamos conectado Entity Framework con la base BookCore.
+constructor.Services.AddDbContext<BookCoreContexto>(opciones =>
+    opciones.UseSqlServer(cadenaConexion));
+// Dejamos el servicio listo para usarlo desde los controladores.
+constructor.Services.AddScoped<
+    ICategoriaServicio,
+    CategoriaServicio>();
+
+constructor.Services.AddControllersWithViews();
+
+var aplicacion = constructor.Build();
+
+if (!aplicacion.Environment.IsDevelopment())
+>>>>>>> Stashed changes
 {
     public class Program
     {

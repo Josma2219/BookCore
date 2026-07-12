@@ -1,0 +1,89 @@
+﻿@model BookCore.ViewModels.CategoriaViewModel
+
+@{
+    ViewData["Title"] = "Detalle de categoría";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Detalle de categoría</h1>
+
+            <p class="text-muted">
+                Información registrada para esta categoría.
+            </p>
+        </div>
+
+        <dl class="row">
+
+            <dt class="col-sm-3">
+                Nombre
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.Nombre
+            </dd>
+
+            <dt class="col-sm-3">
+                Descripción
+            </dt>
+
+            <dd class="col-sm-9">
+                @if (string.IsNullOrWhiteSpace(Model.Descripcion))
+                {
+                    <span class="text-muted">
+                        Sin descripción
+                    </span>
+                }
+                else
+                {
+                    @Model.Descripcion
+                }
+            </dd>
+
+            <dt class="col-sm-3">
+                Estado
+            </dt>
+
+            <dd class="col-sm-9">
+                @if (Model.Activo)
+                {
+                    <span class="badge bg-success">
+                        Activa
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">
+                        Inactiva
+                    </span>
+                }
+            </dd>
+
+            <dt class="col-sm-3">
+                Fecha de creación
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.FechaCreacion.ToString(
+                    "dd/MM/yyyy HH:mm")
+            </dd>
+
+        </dl>
+
+        <div class="d-flex gap-2 mt-4">
+            <a asp-action="Editar"
+               asp-route-id="@Model.CategoriaId"
+               class="btn btn-primary">
+                Editar
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
+                Volver
+            </a>
+        </div>
+
+    </div>
+</div>
