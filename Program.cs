@@ -27,6 +27,10 @@ constructor.Services.AddScoped<
 constructor.Services.AddScoped<
     IUsuarioBibliotecaServicio,
     UsuarioBibliotecaServicio>();
+// Este servicio maneja libros, filtros y asociaciones con autores.
+constructor.Services.AddScoped<
+    ILibroServicio,
+    LibroServicio>();
 
 constructor.Services.AddControllersWithViews();
 

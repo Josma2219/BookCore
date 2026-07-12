@@ -1,0 +1,42 @@
+﻿@model BookCore.ViewModels.LibroFormularioViewModel
+
+@{
+    ViewData["Title"] = "Crear libro";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Crear libro</h1>
+
+            <p class="text-muted">
+                Registra la información general del libro.
+            </p>
+        </div>
+
+        <form asp-action="Crear"
+              method="post">
+
+            <partial name="_Formulario"
+                     model="Model" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Guardar libro
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
