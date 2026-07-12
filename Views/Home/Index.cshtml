@@ -1,8 +1,57 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+        <div class="text-center mb-4">
+            <h1 class="display-4">BookCore</h1>
+
+            <p class="lead">
+                Sistema de gestión de biblioteca
+            </p>
+
+            <span class="badge bg-secondary">
+                Fase 1 de desarrollo
+            </span>
+        </div>
+
+        <hr />
+
+        <div class="row mt-4">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h2 class="card-title">
+                            @ViewBag.TotalLibros
+                        </h2>
+
+                        <p class="card-text">
+                            Libros registrados
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h2 class="card-title">
+                            @ViewBag.TotalCategorias
+                        </h2>
+
+                        <p class="card-text">
+                            Categorías registradas
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Más adelante esta zona tendrá accesos al catálogo y al panel administrativo -->
+        <div class="alert alert-light border mt-3 mb-0">
+            <strong>Estado actual:</strong>
+            conexión con SQL Server y lectura de datos mediante Entity Framework.
+        </div>
+    </div>
 </div>
