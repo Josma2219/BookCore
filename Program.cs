@@ -35,6 +35,10 @@ constructor.Services.AddScoped<
 constructor.Services.AddScoped<
     IEjemplarServicio,
     EjemplarServicio>();
+// Este servicio registra préstamos y devoluciones.
+constructor.Services.AddScoped<
+    IPrestamoServicio,
+    PrestamoServicio>();
 
 constructor.Services.AddControllersWithViews();
 

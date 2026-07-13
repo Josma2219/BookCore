@@ -1,0 +1,156 @@
+﻿@model BookCore.ViewModels.PrestamoDetalleViewModel
+
+@{
+    ViewData["Title"] = "Detalle del préstamo";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Detalle del préstamo</h1>
+
+            <p class="text-muted">
+                Información completa del préstamo seleccionado.
+            </p>
+        </div>
+
+        @if (Model.Estado == "Vencido")
+        {
+            <div class="alert alert-danger">
+                Este préstamo tiene
+                <strong>@Model.DiasAtraso día(s)</strong>
+                de atraso.
+            </div>
+        }
+
+        <dl class="row">
+
+            <dt class="col-sm-3">
+                Usuario
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.UsuarioNombreCompleto
+            </dd>
+
+            <dt class="col-sm-3">
+                Identificación
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.UsuarioCedula
+            </dd>
+
+            <dt class="col-sm-3">
+                Correo
+            </dt>
+
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.UsuarioCorreo)
+                    ? "No indicado"
+                    : Model.UsuarioCorreo)
+            </dd>
+
+            <dt class="col-sm-3">
+                Libro
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.LibroTitulo
+            </dd>
+
+            <dt class="col-sm-3">
+                Código del ejemplar
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.EjemplarCodigo
+            </dd>
+
+            <dt class="col-sm-3">
+                Ubicación
+            </dt>
+
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.EjemplarUbicacion)
+                    ? "No indicada"
+                    : Model.EjemplarUbicacion)
+            </dd>
+
+            <dt class="col-sm-3">
+                Fecha de préstamo
+            </dt>
+
+            <dd class="col-sm-9">
+                @(Model.FechaPrestamo.ToString(
+                    "dd/MM/yyyy HH:mm"))
+            </dd>
+
+            <dt class="col-sm-3">
+                Fecha de vencimiento
+            </dt>
+
+            <dd class="col-sm-9">
+                @(Model.FechaVencimiento.ToString(
+                    "dd/MM/yyyy"))
+            </dd>
+
+            <dt class="col-sm-3">
+                Fecha de devolución
+            </dt>
+
+            <dd class="col-sm-9">
+                @if (Model.FechaDevolucion.HasValue)
+                {
+                    @(Model.FechaDevolucion.Value.ToString(
+                        "dd/MM/yyyy HH:mm"))
+                }
+                else
+                {
+                    <span class="text-muted">
+                        Pendiente
+                    </span>
+                }
+            </dd>
+
+            <dt class="col-sm-3">
+                Estado
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.Estado
+            </dd>
+
+            <dt class="col-sm-3">
+                Observaciones
+            </dt>
+
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.Observaciones)
+                    ? "Sin observaciones"
+                    : Model.Observaciones)
+            </dd>
+
+        </dl>
+
+        <div class="d-flex gap-2 mt-4">
+
+            @if (Model.PuedeDevolverse)
+            {
+                <a asp-action="Devolver"
+                   asp-route-id="@Model.PrestamoId"
+                   class="btn btn-success">
+                    Registrar devolución
+                </a>
+            }
+
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
+                Volver
+            </a>
+
+        </div>
+
+    </div>
+</div>

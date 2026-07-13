@@ -538,7 +538,10 @@ namespace BookCore.Services
                 join ejemplar in _contexto.Set<Ejemplar>()
                     on prestamo.EjemplarId equals ejemplar.EjemplarId
                 where ejemplar.LibroId == libroId &&
-                      prestamo.Estado == "Activo"
+                      (
+                          prestamo.Estado == EstadosPrestamo.Activo ||
+                          prestamo.Estado == EstadosPrestamo.Vencido
+                      )
                 select prestamo
             ).AnyAsync();
         }

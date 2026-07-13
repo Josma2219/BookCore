@@ -80,7 +80,10 @@ namespace BookCore.Services
                         .Any(prestamo =>
                             prestamo.EjemplarId ==
                             ejemplar.EjemplarId &&
-                            prestamo.Estado == "Activo")
+                            (
+    prestamo.Estado == EstadosPrestamo.Activo ||
+    prestamo.Estado == EstadosPrestamo.Vencido
+))
                 })
                 .ToListAsync();
 
@@ -120,7 +123,10 @@ namespace BookCore.Services
                         .Any(prestamo =>
                             prestamo.EjemplarId ==
                             ejemplar.EjemplarId &&
-                            prestamo.Estado == "Activo")
+                            (
+    prestamo.Estado == EstadosPrestamo.Activo ||
+    prestamo.Estado == EstadosPrestamo.Vencido
+))
                 })
                 .FirstOrDefaultAsync();
         }
@@ -454,7 +460,10 @@ namespace BookCore.Services
                 .AsNoTracking()
                 .AnyAsync(prestamo =>
                     prestamo.EjemplarId == ejemplarId &&
-                    prestamo.Estado == "Activo");
+                    (
+    prestamo.Estado == EstadosPrestamo.Activo ||
+    prestamo.Estado == EstadosPrestamo.Vencido
+));
         }
 
         private async Task<List<SelectListItem>>
