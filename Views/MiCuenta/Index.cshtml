@@ -1,0 +1,197 @@
+﻿@model BookCore.ViewModels.MiCuentaViewModel
+
+@{
+    ViewData["Title"] = "Mi cuenta";
+}
+
+<div class="contenedor-pagina">
+
+    <div class="tarjeta-panel mb-4">
+
+        <h1>Mi cuenta</h1>
+
+        <p class="lead mb-1">
+            @Model.NombreCompleto
+        </p>
+
+        <p class="text-muted">
+            Identificación: @Model.Cedula
+        </p>
+
+        <div class="row mt-4">
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+
+                        <h2>
+                            @Model.PrestamosActuales.Count
+                        </h2>
+
+                        <p class="mb-0">
+                            Préstamos actuales
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+
+                        <h2>
+                            @Model.TotalPrestamosHistoricos
+                        </h2>
+
+                        <p class="mb-0">
+                            Préstamos históricos
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+
+                        <h2>
+                            @Model.TotalFavoritos
+                        </h2>
+
+                        <p class="mb-0">
+                            Libros favoritos
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+
+            <a asp-action="Historial"
+               class="btn btn-outline-primary">
+                Ver historial completo
+            </a>
+
+            <a asp-controller="Favoritos"
+               asp-action="Index"
+               class="btn btn-outline-primary">
+                Ver favoritos
+            </a>
+
+            <a asp-controller="Catalogo"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Abrir catálogo
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="tarjeta-panel">
+
+        <h2 class="h4">
+            Préstamos actuales
+        </h2>
+
+        @if (!Model.PrestamosActuales.Any())
+        {
+            <div class="alert alert-info mb-0">
+                No tienes libros pendientes de devolución.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Libro</th>
+                            <th>Ejemplar</th>
+                            <th>Fecha del préstamo</th>
+                            <th>Vencimiento</th>
+                            <th>Tiempo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (
+                            var prestamo
+                            in Model.PrestamosActuales)
+                        {
+                            <tr>
+
+                                <td>
+                                    <a asp-controller="Catalogo"
+                                       asp-action="Detalle"
+                                       asp-route-id="@prestamo.LibroId">
+                                        @prestamo.LibroTitulo
+                                    </a>
+                                </td>
+
+                                <td>
+                                    @prestamo.EjemplarCodigo
+                                </td>
+
+                                <td>
+                                    @(prestamo.FechaPrestamo
+                                        .ToString("dd/MM/yyyy"))
+                                </td>
+
+                                <td>
+                                    @(prestamo.FechaVencimiento
+                                        .ToString("dd/MM/yyyy"))
+                                </td>
+
+                                <td>
+                                    @if (prestamo.DiasAtraso > 0)
+                                    {
+                                        <span class="text-danger fw-bold">
+                                            @prestamo.TextoPlazo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            @prestamo.TextoPlazo
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (prestamo.Estado == "Vencido")
+                                    {
+                                        <span class="badge bg-danger">
+                                            Vencido
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-primary">
+                                            Activo
+                                        </span>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>

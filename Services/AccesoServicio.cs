@@ -1,5 +1,6 @@
 ﻿using BookCore.Data;
 using BookCore.Models.Entidades;
+using BookCore.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,72 +10,172 @@ namespace BookCore.Services
     {
         private readonly BookCoreContexto _contexto;
 
-        private readonly IPasswordHasher<UsuarioAdministrativo>
-            _generadorContrasenas;
+        private readonly
+            IPasswordHasher<UsuarioAdministrativo>
+            _generadorAdministrador;
 
-        private readonly ILogger<AccesoServicio> _registro;
+        private readonly
+            IPasswordHasher<CuentaUsuario>
+            _generadorUsuario;
 
         public AccesoServicio(
             BookCoreContexto contexto,
-            IPasswordHasher<UsuarioAdministrativo> generadorContrasenas,
-            ILogger<AccesoServicio> registro)
+            IPasswordHasher<UsuarioAdministrativo>
+                generadorAdministrador,
+            IPasswordHasher<CuentaUsuario>
+                generadorUsuario)
         {
             _contexto = contexto;
-            _generadorContrasenas = generadorContrasenas;
-            _registro = registro;
+
+            _generadorAdministrador =
+                generadorAdministrador;
+
+            _generadorUsuario =
+                generadorUsuario;
         }
 
-        public async Task<UsuarioAdministrativo?>
+        public async Task<ResultadoAccesoViewModel?>
             ValidarCredencialesAsync(
                 string identificador,
                 string contrasena)
         {
-            string identificadorLimpio = identificador.Trim();
+            string identificadorLimpio =
+                identificador.Trim();
 
-            var usuario = await _contexto
+            var administrador = await _contexto
                 .Set<UsuarioAdministrativo>()
-                .FirstOrDefaultAsync(usuarioActual =>
-                    usuarioActual.Activo &&
+                .FirstOrDefaultAsync(usuario =>
+                    usuario.Activo &&
                     (
-                        usuarioActual.NombreUsuario ==
+                        usuario.NombreUsuario ==
                         identificadorLimpio ||
 
-                        usuarioActual.Correo ==
+                        usuario.Correo ==
                         identificadorLimpio
                     ));
 
-            if (usuario is null)
+            if (administrador is not null)
+            {
+                var resultadoAdministrador =
+                    _generadorAdministrador
+                        .VerifyHashedPassword(
+                            administrador,
+                            administrador.ContrasenaHash,
+                            contrasena);
+
+                if (resultadoAdministrador !=
+                    PasswordVerificationResult.Failed)
+                {
+                    if (resultadoAdministrador ==
+                        PasswordVerificationResult
+                            .SuccessRehashNeeded)
+                    {
+                        administrador.ContrasenaHash =
+                            _generadorAdministrador
+                                .HashPassword(
+                                    administrador,
+                                    contrasena);
+
+                        await _contexto.SaveChangesAsync();
+                    }
+
+                    return new ResultadoAccesoViewModel
+                    {
+                        IdCuenta =
+                            administrador
+                                .UsuarioAdministrativoId,
+
+                        NombreUsuario =
+                            administrador.NombreUsuario,
+
+                        Correo =
+                            administrador.Correo,
+
+                        Rol =
+                            "Administrador"
+                    };
+                }
+            }
+
+            var resultadoCuenta = await (
+                from cuenta in _contexto
+                    .Set<CuentaUsuario>()
+
+                join usuario in _contexto
+                    .Set<UsuarioBiblioteca>()
+                    on cuenta.UsuarioBibliotecaId
+                    equals usuario.UsuarioBibliotecaId
+
+                where cuenta.Activo &&
+                      usuario.Activo &&
+                      (
+                          cuenta.NombreUsuario ==
+                          identificadorLimpio ||
+
+                          cuenta.Correo ==
+                          identificadorLimpio
+                      )
+
+                select new
+                {
+                    Cuenta = cuenta,
+                    Usuario = usuario
+                })
+                .FirstOrDefaultAsync();
+
+            if (resultadoCuenta is null)
             {
                 return null;
             }
 
-            var resultado = _generadorContrasenas
-                .VerifyHashedPassword(
-                    usuario,
-                    usuario.ContrasenaHash,
-                    contrasena);
+            var resultadoContrasena =
+                _generadorUsuario
+                    .VerifyHashedPassword(
+                        resultadoCuenta.Cuenta,
+                        resultadoCuenta.Cuenta
+                            .ContrasenaHash,
+                        contrasena);
 
-            if (resultado == PasswordVerificationResult.Failed)
+            if (resultadoContrasena ==
+                PasswordVerificationResult.Failed)
             {
                 return null;
             }
 
-            // Si el sistema detecta un formato antiguo,
-            // vuelve a guardar la contraseña con el formato actual.
-            if (resultado ==
-                PasswordVerificationResult.SuccessRehashNeeded)
+            if (resultadoContrasena ==
+                PasswordVerificationResult
+                    .SuccessRehashNeeded)
             {
-                usuario.ContrasenaHash = _generadorContrasenas
-                    .HashPassword(usuario, contrasena);
+                resultadoCuenta.Cuenta
+                    .ContrasenaHash =
+                    _generadorUsuario
+                        .HashPassword(
+                            resultadoCuenta.Cuenta,
+                            contrasena);
 
                 await _contexto.SaveChangesAsync();
-
-                _registro.LogInformation(
-                    "Se actualizó el hash del usuario {UsuarioId}.",
-                    usuario.UsuarioAdministrativoId);
             }
 
-            return usuario;
+            return new ResultadoAccesoViewModel
+            {
+                IdCuenta =
+                    resultadoCuenta.Cuenta
+                        .CuentaUsuarioId,
+
+                UsuarioBibliotecaId =
+                    resultadoCuenta.Usuario
+                        .UsuarioBibliotecaId,
+
+                NombreUsuario =
+                    resultadoCuenta.Cuenta
+                        .NombreUsuario,
+
+                Correo =
+                    resultadoCuenta.Cuenta.Correo,
+
+                Rol =
+                    "Usuario"
+            };
         }
     }
 }

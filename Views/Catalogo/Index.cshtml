@@ -1,7 +1,16 @@
-﻿@model BookCore.ViewModels.CatalogoIndiceViewModel
+﻿@using System.Collections.Generic
+@model BookCore.ViewModels.CatalogoIndiceViewModel
 
 @{
     ViewData["Title"] = "Catálogo";
+
+    HashSet<int> favoritos =
+        ViewBag.Favoritos as HashSet<int>
+        ?? new HashSet<int>();
+
+    string returnUrl =
+        Context.Request.Path.ToString() +
+        Context.Request.QueryString.ToString();
 }
 
 <div class="contenedor-pagina">
@@ -16,7 +25,8 @@
 
     <div class="tarjeta-panel mb-4">
 
-        <form asp-action="Index"
+        <form asp-controller="Catalogo"
+              asp-action="Index"
               method="get"
               class="row g-3">
 
@@ -55,7 +65,8 @@
                     Buscar
                 </button>
 
-                <a asp-action="Index"
+                <a asp-controller="Catalogo"
+                   asp-action="Index"
                    class="btn btn-outline-secondary">
                     Limpiar
                 </a>
@@ -78,6 +89,9 @@
 
             @foreach (var libro in Model.Libros)
             {
+                bool esFavorito =
+                    favoritos.Contains(libro.LibroId);
+
                 <div class="col-md-6 col-lg-4 mb-4">
 
                     <div class="card h-100">
@@ -88,7 +102,22 @@
                             <img src="@libro.ImagenUrl"
                                  class="card-img-top"
                                  alt="Portada de @libro.Titulo"
-                                 style="height: 300px; object-fit: contain;" />
+                                 style="height: 300px;
+                            object-fit: contain;" />
+                        }
+                        else
+                        {
+                            <div class="d-flex
+                                justify-content-center
+                                align-items-center
+                                bg-light text-muted"
+                                 style="height: 300px;">
+
+                                <span>
+                                    Sin portada
+                                </span>
+
+                            </div>
                         }
 
                         <div class="card-body d-flex flex-column">
@@ -106,26 +135,107 @@
                                 @libro.CategoriaNombre
                             </p>
 
+                            @if (!string.IsNullOrWhiteSpace(
+                                libro.Editorial))
+                            {
+                                <p class="small text-muted mb-2">
+                                    Editorial: @libro.Editorial
+                                </p>
+                            }
+
+                            @if (libro.AnioPublicacion.HasValue)
+                            {
+                                <p class="small text-muted mb-2">
+                                    Año: @libro.AnioPublicacion
+                                </p>
+                            }
+
                             @if (libro.Disponible)
                             {
                                 <span class="badge bg-success
                                     align-self-start mb-3">
-                                    @libro.EjemplaresDisponibles disponible(s)
+
+                                    @libro.EjemplaresDisponibles
+                                    disponible(s)
+
                                 </span>
                             }
                             else
                             {
                                 <span class="badge bg-secondary
                                     align-self-start mb-3">
+
                                     No disponible
+
                                 </span>
                             }
 
-                            <a asp-action="Detalle"
-                               asp-route-id="@libro.LibroId"
-                               class="btn btn-outline-primary mt-auto">
-                                Ver detalle
-                            </a>
+                            <div class="d-grid gap-2 mt-auto">
+
+                                @if (User.IsInRole("Usuario"))
+                                {
+                                    @if (esFavorito)
+                                    {
+                                        <form asp-controller="Favoritos"
+                                              asp-action="Eliminar"
+                                              method="post">
+
+                                            <input type="hidden"
+                                                   name="libroId"
+                                                   value="@libro.LibroId" />
+
+                                            <input type="hidden"
+                                                   name="returnUrl"
+                                                   value="@returnUrl" />
+
+                                            <button type="submit"
+                                                    class="btn
+                                                btn-outline-danger
+                                                w-100">
+
+                                                Quitar de favoritos
+
+                                            </button>
+
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-controller="Favoritos"
+                                              asp-action="Agregar"
+                                              method="post">
+
+                                            <input type="hidden"
+                                                   name="libroId"
+                                                   value="@libro.LibroId" />
+
+                                            <input type="hidden"
+                                                   name="returnUrl"
+                                                   value="@returnUrl" />
+
+                                            <button type="submit"
+                                                    class="btn
+                                                btn-outline-danger
+                                                w-100">
+
+                                                Agregar a favoritos
+
+                                            </button>
+
+                                        </form>
+                                    }
+                                }
+
+                                <a asp-controller="Catalogo"
+                                   asp-action="Detalle"
+                                   asp-route-id="@libro.LibroId"
+                                   class="btn btn-outline-primary">
+
+                                    Ver detalle
+
+                                </a>
+
+                            </div>
 
                         </div>
 

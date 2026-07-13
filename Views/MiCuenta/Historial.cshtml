@@ -1,0 +1,129 @@
+﻿@model BookCore.ViewModels.HistorialUsuarioViewModel
+
+@{
+    ViewData["Title"] = "Mi historial";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="d-flex justify-content-between
+            align-items-center mb-4">
+
+            <div>
+                <h1>Mi historial</h1>
+
+                <p class="text-muted mb-0">
+                    Movimientos registrados para
+                    @Model.NombreCompleto.
+                </p>
+            </div>
+
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
+                Volver a mi cuenta
+            </a>
+
+        </div>
+
+        @if (!Model.Prestamos.Any())
+        {
+            <div class="alert alert-info">
+                Todavía no tienes préstamos registrados.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Libro</th>
+                            <th>Ejemplar</th>
+                            <th>Préstamo</th>
+                            <th>Vencimiento</th>
+                            <th>Devolución</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var prestamo in Model.Prestamos)
+                        {
+                            <tr>
+
+                                <td>
+                                    <a asp-controller="Catalogo"
+                                       asp-action="Detalle"
+                                       asp-route-id="@prestamo.LibroId">
+                                        @prestamo.LibroTitulo
+                                    </a>
+                                </td>
+
+                                <td>
+                                    @prestamo.EjemplarCodigo
+                                </td>
+
+                                <td>
+                                    @(prestamo.FechaPrestamo
+                                        .ToString("dd/MM/yyyy"))
+                                </td>
+
+                                <td>
+                                    @(prestamo.FechaVencimiento
+                                        .ToString("dd/MM/yyyy"))
+                                </td>
+
+                                <td>
+                                    @if (prestamo.FechaDevolucion.HasValue)
+                                    {
+                                        @(prestamo.FechaDevolucion
+                                            .Value
+                                            .ToString("dd/MM/yyyy"))
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            Pendiente
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @switch (prestamo.Estado)
+                                    {
+                                        case "Activo":
+                                            <span class="badge bg-primary">
+                                                Activo
+                                            </span>
+                                            break;
+
+                                        case "Vencido":
+                                            <span class="badge bg-danger">
+                                                Vencido
+                                            </span>
+                                            break;
+
+                                        default:
+                                            <span class="badge bg-success">
+                                                Devuelto
+                                            </span>
+                                            break;
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+</div>

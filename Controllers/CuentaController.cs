@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using BookCore.Helpers;
 using BookCore.Services;
 using BookCore.ViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -10,7 +11,8 @@ namespace BookCore.Controllers
 {
     public class CuentaController : Controller
     {
-        private readonly IAccesoServicio _accesoServicio;
+        private readonly IAccesoServicio
+            _accesoServicio;
 
         public CuentaController(
             IAccesoServicio accesoServicio)
@@ -25,9 +27,23 @@ namespace BookCore.Controllers
         {
             if (User.Identity?.IsAuthenticated == true)
             {
+                if (User.IsInRole("Administrador"))
+                {
+                    return RedirectToAction(
+                        "Index",
+                        "Panel");
+                }
+
+                if (User.IsInRole("Usuario"))
+                {
+                    return RedirectToAction(
+                        "Index",
+                        "MiCuenta");
+                }
+
                 return RedirectToAction(
                     "Index",
-                    "Panel");
+                    "Home");
             }
 
             return View(new InicioSesionViewModel
@@ -65,7 +81,7 @@ namespace BookCore.Controllers
             {
                 new(
                     ClaimTypes.NameIdentifier,
-                    usuario.UsuarioAdministrativoId.ToString()),
+                    usuario.IdCuenta.ToString()),
 
                 new(
                     ClaimTypes.Name,
@@ -80,22 +96,36 @@ namespace BookCore.Controllers
                     usuario.Rol)
             };
 
+            if (usuario.UsuarioBibliotecaId.HasValue)
+            {
+                declaraciones.Add(
+                    new Claim(
+                        TiposClaim.UsuarioBibliotecaId,
+                        usuario.UsuarioBibliotecaId
+                            .Value
+                            .ToString()));
+            }
+
             var identidad = new ClaimsIdentity(
                 declaraciones,
                 CookieAuthenticationDefaults
                     .AuthenticationScheme);
 
-            var principal = new ClaimsPrincipal(
-                identidad);
+            var principal =
+                new ClaimsPrincipal(identidad);
 
-            var propiedades = new AuthenticationProperties
-            {
-                IsPersistent = modelo.Recordarme,
+            var propiedades =
+                new AuthenticationProperties
+                {
+                    IsPersistent =
+                        modelo.Recordarme,
 
-                ExpiresUtc = modelo.Recordarme
-                    ? DateTimeOffset.UtcNow.AddDays(7)
-                    : null
-            };
+                    ExpiresUtc =
+                        modelo.Recordarme
+                            ? DateTimeOffset.UtcNow
+                                .AddDays(7)
+                            : null
+                };
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults
@@ -106,15 +136,24 @@ namespace BookCore.Controllers
             TempData["MensajeExito"] =
                 $"Bienvenido, {usuario.NombreUsuario}.";
 
-            if (!string.IsNullOrWhiteSpace(modelo.ReturnUrl) &&
+            if (!string.IsNullOrWhiteSpace(
+                    modelo.ReturnUrl) &&
                 Url.IsLocalUrl(modelo.ReturnUrl))
             {
-                return LocalRedirect(modelo.ReturnUrl);
+                return LocalRedirect(
+                    modelo.ReturnUrl);
+            }
+
+            if (usuario.Rol == "Administrador")
+            {
+                return RedirectToAction(
+                    "Index",
+                    "Panel");
             }
 
             return RedirectToAction(
                 "Index",
-                "Panel");
+                "MiCuenta");
         }
 
         [Authorize]

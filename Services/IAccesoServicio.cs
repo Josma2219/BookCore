@@ -1,11 +1,12 @@
-﻿using BookCore.Models.Entidades;
+﻿using BookCore.ViewModels;
 
 namespace BookCore.Services
 {
     public interface IAccesoServicio
     {
-        Task<UsuarioAdministrativo?> ValidarCredencialesAsync(
-            string identificador,
-            string contrasena);
+        Task<ResultadoAccesoViewModel?>
+            ValidarCredencialesAsync(
+                string identificador,
+                string contrasena);
     }
 }

@@ -35,5 +35,11 @@ public partial class UsuarioBiblioteca
     public DateTime FechaRegistro { get; set; }
 
     [InverseProperty("UsuarioBiblioteca")]
+    public virtual CuentaUsuario? CuentaUsuario { get; set; }
+
+    [InverseProperty("UsuarioBiblioteca")]
+    public virtual ICollection<Favorito> Favorito { get; set; } = new List<Favorito>();
+
+    [InverseProperty("UsuarioBiblioteca")]
     public virtual ICollection<Prestamo> Prestamo { get; set; } = new List<Prestamo>();
 }

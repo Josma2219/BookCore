@@ -16,7 +16,11 @@ public partial class BookCoreContexto : DbContext
 
     public virtual DbSet<Categoria> Categoria { get; set; }
 
+    public virtual DbSet<CuentaUsuario> CuentaUsuario { get; set; }
+
     public virtual DbSet<Ejemplar> Ejemplar { get; set; }
+
+    public virtual DbSet<Favorito> Favorito { get; set; }
 
     public virtual DbSet<Libro> Libro { get; set; }
 
@@ -44,6 +48,16 @@ public partial class BookCoreContexto : DbContext
             entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(getdate())");
         });
 
+        modelBuilder.Entity<CuentaUsuario>(entity =>
+        {
+            entity.Property(e => e.Activo).HasDefaultValue(true, "DF_CuentaUsuario_Activo");
+            entity.Property(e => e.FechaCreacion).HasDefaultValueSql("(getdate())", "DF_CuentaUsuario_FechaCreacion");
+
+            entity.HasOne(d => d.UsuarioBiblioteca).WithOne(p => p.CuentaUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CuentaUsuario_UsuarioBiblioteca");
+        });
+
         modelBuilder.Entity<Ejemplar>(entity =>
         {
             entity.HasKey(e => e.EjemplarId).HasName("PK__Ejemplar__C7803E497D318E13");
@@ -55,6 +69,19 @@ public partial class BookCoreContexto : DbContext
             entity.HasOne(d => d.Libro).WithMany(p => p.Ejemplar)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Ejemplar_Libro");
+        });
+
+        modelBuilder.Entity<Favorito>(entity =>
+        {
+            entity.Property(e => e.FechaAgregado).HasDefaultValueSql("(getdate())", "DF_Favorito_FechaAgregado");
+
+            entity.HasOne(d => d.Libro).WithMany(p => p.Favorito)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Favorito_Libro");
+
+            entity.HasOne(d => d.UsuarioBiblioteca).WithMany(p => p.Favorito)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Favorito_UsuarioBiblioteca");
         });
 
         modelBuilder.Entity<Libro>(entity =>

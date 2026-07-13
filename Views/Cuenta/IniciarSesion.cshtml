@@ -5,6 +5,7 @@
 }
 
 <div class="contenedor-pagina">
+
     <div class="row justify-content-center">
 
         <div class="col-md-6 col-lg-5">
@@ -12,16 +13,19 @@
             <div class="tarjeta-panel">
 
                 <div class="text-center mb-4">
+
                     <h1 class="h2">
                         Iniciar sesión
                     </h1>
 
                     <p class="text-muted">
-                        Acceso administrativo de BookCore
+                        Accede a tu cuenta de BookCore
                     </p>
+
                 </div>
 
-                <form asp-action="IniciarSesion"
+                <form asp-controller="Cuenta"
+                      asp-action="IniciarSesion"
                       method="post">
 
                     <input asp-for="ReturnUrl"
@@ -32,6 +36,7 @@
                     </div>
 
                     <div class="mb-3">
+
                         <label asp-for="Identificador"
                                class="form-label">
                         </label>
@@ -44,9 +49,11 @@
                         <span asp-validation-for="Identificador"
                               class="text-danger">
                         </span>
+
                     </div>
 
                     <div class="mb-3">
+
                         <label asp-for="Contrasena"
                                class="form-label">
                         </label>
@@ -59,29 +66,47 @@
                         <span asp-validation-for="Contrasena"
                               class="text-danger">
                         </span>
+
                     </div>
 
                     <div class="form-check mb-4">
+
                         <input asp-for="Recordarme"
                                class="form-check-input" />
 
                         <label asp-for="Recordarme"
                                class="form-check-label">
                         </label>
+
                     </div>
 
                     <button type="submit"
                             class="btn btn-primary w-100">
+
                         Entrar
+
                     </button>
 
                 </form>
+
+                <div class="text-center mt-4">
+
+                    <a asp-controller="Catalogo"
+                       asp-action="Index"
+                       class="text-decoration-none">
+
+                        Volver al catálogo
+
+                    </a>
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 </div>
 
 @section Scripts {

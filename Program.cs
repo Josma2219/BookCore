@@ -60,6 +60,24 @@ constructor.Services.AddScoped<
     IPasswordHasher<UsuarioAdministrativo>,
     PasswordHasher<UsuarioAdministrativo>>();
 
+// Administra las credenciales de los usuarios de biblioteca.
+constructor.Services.AddScoped<
+    ICuentaUsuarioServicio,
+    CuentaUsuarioServicio>();
+
+// Genera y valida contraseñas de usuarios generales.
+constructor.Services.AddScoped<
+    IPasswordHasher<CuentaUsuario>,
+    PasswordHasher<CuentaUsuario>>();
+
+constructor.Services.AddScoped<
+    IMiCuentaServicio,
+    MiCuentaServicio>();
+
+constructor.Services.AddScoped<
+    IFavoritoServicio,
+    FavoritoServicio>();
+
 // La sesión administrativa se guarda en una cookie protegida.
 constructor.Services
     .AddAuthentication(
