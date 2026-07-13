@@ -31,6 +31,10 @@ constructor.Services.AddScoped<
 constructor.Services.AddScoped<
     ILibroServicio,
     LibroServicio>();
+// Este servicio administra las copias físicas de los libros.
+constructor.Services.AddScoped<
+    IEjemplarServicio,
+    EjemplarServicio>();
 
 constructor.Services.AddControllersWithViews();
 

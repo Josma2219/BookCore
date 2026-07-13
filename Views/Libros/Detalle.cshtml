@@ -186,6 +186,19 @@
                class="btn btn-primary">
                 Editar
             </a>
+            <a asp-controller="Ejemplares"
+               asp-action="Index"
+               asp-route-libroId="@Model.LibroId"
+               class="btn btn-outline-primary">
+                Ver ejemplares
+            </a>
+
+            <a asp-controller="Ejemplares"
+               asp-action="Crear"
+               asp-route-libroId="@Model.LibroId"
+               class="btn btn-outline-success">
+                Agregar ejemplar
+            </a>
 
             <a asp-action="Index"
                class="btn btn-outline-secondary">

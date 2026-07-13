@@ -1,0 +1,94 @@
+﻿@model BookCore.ViewModels.EjemplarListadoViewModel
+
+@{
+    ViewData["Title"] = "Detalle del ejemplar";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Detalle del ejemplar</h1>
+
+            <p class="text-muted">
+                Información de la copia física seleccionada.
+            </p>
+        </div>
+
+        <dl class="row">
+            <dt class="col-sm-3">
+                Código interno
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.CodigoInterno
+            </dd>
+
+            <dt class="col-sm-3">
+                Libro
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.LibroTitulo
+            </dd>
+
+            <dt class="col-sm-3">
+                Estado
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.Estado
+            </dd>
+
+            <dt class="col-sm-3">
+                Ubicación
+            </dt>
+
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.Ubicacion)
+                    ? "No indicada"
+                    : Model.Ubicacion)
+            </dd>
+
+            <dt class="col-sm-3">
+                Fecha de ingreso
+            </dt>
+
+            <dd class="col-sm-9">
+                @(Model.FechaIngreso.ToString(
+                    "dd/MM/yyyy HH:mm"))
+            </dd>
+
+            <dt class="col-sm-3">
+                Registro activo
+            </dt>
+
+            <dd class="col-sm-9">
+                @(Model.Activo ? "Sí" : "No")
+            </dd>
+
+            <dt class="col-sm-3">
+                Préstamo activo
+            </dt>
+
+            <dd class="col-sm-9">
+                @(Model.TienePrestamoActivo ? "Sí" : "No")
+            </dd>
+        </dl>
+
+        <div class="d-flex gap-2 mt-4">
+            <a asp-action="Editar"
+               asp-route-id="@Model.EjemplarId"
+               class="btn btn-primary">
+                Editar
+            </a>
+
+            <a asp-action="Index"
+               asp-route-libroId="@Model.LibroId"
+               class="btn btn-outline-secondary">
+                Volver
+            </a>
+        </div>
+
+    </div>
+</div>
