@@ -1,10 +1,11 @@
 ﻿using BookCore.Services;
 using BookCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookCore.Controllers
 {
-    // Este módulo se protege cuando agreguemos el login.
+    [Authorize(Roles = "Administrador")]
     public class LibrosController : Controller
     {
         private readonly ILibroServicio _libroServicio;

@@ -1,0 +1,125 @@
+﻿@model BookCore.ViewModels.LibroDetalleViewModel
+
+@{
+    ViewData["Title"] = Model.Titulo;
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="row">
+
+            @if (!string.IsNullOrWhiteSpace(Model.ImagenUrl))
+            {
+                <div class="col-md-3 mb-4">
+
+                    <img src="@Model.ImagenUrl"
+                         alt="Portada de @Model.Titulo"
+                         class="img-fluid rounded border" />
+
+                </div>
+            }
+
+            <div class="@(
+                 string.IsNullOrWhiteSpace(Model.ImagenUrl)
+                     ? "col-md-12"
+                     : "col-md-9")">
+
+                <h1>
+                    @Model.Titulo
+                </h1>
+
+                <p class="lead text-muted">
+                    @Model.Autores
+                </p>
+
+                <dl class="row mt-4">
+
+                    <dt class="col-sm-4">
+                        Categoría
+                    </dt>
+
+                    <dd class="col-sm-8">
+                        @Model.CategoriaNombre
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        Editorial
+                    </dt>
+
+                    <dd class="col-sm-8">
+                        @(string.IsNullOrWhiteSpace(Model.Editorial)
+                            ? "No indicada"
+                            : Model.Editorial)
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        Año
+                    </dt>
+
+                    <dd class="col-sm-8">
+                        @(Model.AnioPublicacion?.ToString()
+                            ?? "No indicado")
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        Disponibilidad
+                    </dt>
+
+                    <dd class="col-sm-8">
+
+                        @if (Model.EjemplaresDisponibles > 0)
+                        {
+                            <span class="badge bg-success">
+                                @Model.EjemplaresDisponibles
+                                ejemplar(es) disponible(s)
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                No disponible
+                            </span>
+                        }
+
+                    </dd>
+
+                </dl>
+
+            </div>
+
+        </div>
+
+        <hr />
+
+        <h2 class="h4">
+            Descripción
+        </h2>
+
+        <p>
+            @(string.IsNullOrWhiteSpace(Model.Descripcion)
+                ? "Este libro no tiene una descripción registrada."
+                : Model.Descripcion)
+        </p>
+
+        <div class="d-flex gap-2 mt-4">
+
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
+                Volver al catálogo
+            </a>
+
+            @if (User.IsInRole("Administrador"))
+            {
+                <a asp-controller="Libros"
+                   asp-action="Detalle"
+                   asp-route-id="@Model.LibroId"
+                   class="btn btn-primary">
+                    Administrar libro
+                </a>
+            }
+
+        </div>
+
+    </div>
+</div>

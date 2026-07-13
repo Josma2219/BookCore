@@ -1,10 +1,11 @@
 ﻿using BookCore.Services;
 using BookCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookCore.Controllers
 {
-    // Cuando tengamos el login, este controlador llevará [Authorize].
+    [Authorize(Roles = "Administrador")]
     public class CategoriasController : Controller
     {
         private readonly ICategoriaServicio _categoriaServicio;

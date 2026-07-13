@@ -6,11 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <RootNamespace>BookCore</RootNamespace>
 	  <AssemblyName>BookCore</AssemblyName>
+	  <UserSecretsId>1bbfe8eb-4dba-47e6-a4f3-2563079911e5</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
