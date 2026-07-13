@@ -62,6 +62,64 @@ namespace BookCore.ViewModels
             }
         }
 
+        // Cantidad total de días otorgados para el préstamo.
+        public int DiasTotalesPrestamo
+        {
+            get
+            {
+                return Math.Max(
+                    1,
+                    (
+                        FechaVencimiento.Date -
+                        FechaPrestamo.Date
+                    ).Days);
+            }
+        }
+
+        // Días que ya han transcurrido desde que se prestó el libro.
+        public int DiasTranscurridos
+        {
+            get
+            {
+                DateTime fechaFinal =
+                    FechaDevolucion?.Date
+                    ?? DateTime.Today;
+
+                int dias = (
+                    fechaFinal -
+                    FechaPrestamo.Date
+                ).Days;
+
+                return Math.Clamp(
+                    dias,
+                    0,
+                    DiasTotalesPrestamo);
+            }
+        }
+
+        // Porcentaje visual que ocupará la barra.
+        public int PorcentajeTranscurrido
+        {
+            get
+            {
+                if (Estado == EstadosPrestamo.Vencido ||
+                    Estado == EstadosPrestamo.Devuelto)
+                {
+                    return 100;
+                }
+
+                double porcentaje =
+                    DiasTranscurridos *
+                    100.0 /
+                    DiasTotalesPrestamo;
+
+                return Math.Clamp(
+                    (int)Math.Round(porcentaje),
+                    0,
+                    100);
+            }
+        }
+
         public string TextoPlazo
         {
             get
@@ -82,6 +140,58 @@ namespace BookCore.ViewModels
                 }
 
                 return $"{DiasRestantes} día(s) restantes";
+            }
+        }
+
+        // Clase de Bootstrap utilizada para colorear la barra.
+        public string ClaseBarra
+        {
+            get
+            {
+                if (Estado == EstadosPrestamo.Vencido)
+                {
+                    return "bg-danger";
+                }
+
+                if (Estado == EstadosPrestamo.Devuelto)
+                {
+                    return "bg-success";
+                }
+
+                if (DiasRestantes == 0)
+                {
+                    return "bg-info";
+                }
+
+                if (DiasRestantes <= 3)
+                {
+                    return "bg-warning";
+                }
+
+                return "bg-success";
+            }
+        }
+
+        public string ClaseTextoPlazo
+        {
+            get
+            {
+                if (Estado == EstadosPrestamo.Vencido)
+                {
+                    return "text-danger";
+                }
+
+                if (DiasRestantes == 0)
+                {
+                    return "text-info";
+                }
+
+                if (DiasRestantes <= 3)
+                {
+                    return "text-warning";
+                }
+
+                return "text-success";
             }
         }
     }

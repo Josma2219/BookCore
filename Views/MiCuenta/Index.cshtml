@@ -117,7 +117,9 @@
                             <th>Ejemplar</th>
                             <th>Fecha del préstamo</th>
                             <th>Vencimiento</th>
-                            <th>Tiempo</th>
+                            <th style="min-width: 230px;">
+                                Tiempo restante
+                            </th>
                             <th>Estado</th>
                         </tr>
                     </thead>
@@ -152,19 +154,56 @@
                                         .ToString("dd/MM/yyyy"))
                                 </td>
 
-                                <td>
-                                    @if (prestamo.DiasAtraso > 0)
-                                    {
-                                        <span class="text-danger fw-bold">
+                                <td class="celda-tiempo-prestamo">
+
+                                    <div class="d-flex
+                                        justify-content-between
+                                        align-items-center
+                                        mb-1">
+
+                                        <span class="small fw-semibold
+                                            @prestamo.ClaseTextoPlazo">
+
                                             @prestamo.TextoPlazo
+
                                         </span>
-                                    }
-                                    else
-                                    {
-                                        <span>
-                                            @prestamo.TextoPlazo
+
+                                        <span class="small text-muted">
+
+                                            @prestamo.PorcentajeTranscurrido%
+
                                         </span>
-                                    }
+
+                                    </div>
+
+                                    <div class="progress barra-tiempo-prestamo"
+                                         role="progressbar"
+                                         aria-label="Tiempo transcurrido del préstamo"
+                                         aria-valuenow="@prestamo.PorcentajeTranscurrido"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+
+                                        <div class="progress-bar
+                                            @prestamo.ClaseBarra
+                                            @(prestamo.ClaseBarra == "bg-warning"
+                                                 ? "text-dark"
+                                                 : string.Empty)"
+                                             style="@(
+                                             $"width: {prestamo.PorcentajeTranscurrido}%;"
+                                                      )">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="small text-muted mt-1">
+
+                                        @prestamo.DiasTranscurridos
+                                        de
+                                        @prestamo.DiasTotalesPrestamo
+                                        día(s) utilizados
+
+                                    </div>
+
                                 </td>
 
                                 <td>
