@@ -27,7 +27,7 @@ namespace BookCore.Controllers
             {
                 return RedirectToAction(
                     "Index",
-                    "Home");
+                    "Panel");
             }
 
             return View(new InicioSesionViewModel
@@ -114,7 +114,7 @@ namespace BookCore.Controllers
 
             return RedirectToAction(
                 "Index",
-                "Home");
+                "Panel");
         }
 
         [Authorize]

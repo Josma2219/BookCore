@@ -50,6 +50,10 @@ constructor.Services.AddScoped<
 constructor.Services.AddScoped<
     ICatalogoServicio,
     CatalogoServicio>();
+// Servicio encargado del resumen administrativo.
+constructor.Services.AddScoped<
+    IPanelAdministrativoServicio,
+    PanelAdministrativoServicio>();
 
 // Genera y verifica las contraseñas protegidas.
 constructor.Services.AddScoped<

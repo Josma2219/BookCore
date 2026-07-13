@@ -1,0 +1,348 @@
+﻿@model BookCore.ViewModels.PanelAdministrativoViewModel
+
+@{
+    ViewData["Title"] = "Panel administrativo";
+}
+
+<div class="contenedor-pagina">
+
+    <div class="d-flex justify-content-between
+        align-items-center mb-4">
+
+        <div>
+            <h1 class="mb-1">
+                Panel administrativo
+            </h1>
+
+            <p class="text-muted mb-0">
+                Resumen general de la operación de BookCore.
+            </p>
+        </div>
+
+        <a asp-controller="Prestamos"
+           asp-action="Crear"
+           class="btn btn-primary">
+            Registrar préstamo
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+
+                    <h2 class="display-6">
+                        @Model.TotalLibrosActivos
+                    </h2>
+
+                    <p class="mb-0">
+                        Libros activos
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+
+                    <h2 class="display-6">
+                        @Model.TotalUsuariosActivos
+                    </h2>
+
+                    <p class="mb-0">
+                        Usuarios activos
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+
+                    <h2 class="display-6">
+                        @Model.EjemplaresDisponibles
+                    </h2>
+
+                    <p class="mb-0">
+                        Ejemplares disponibles
+                    </p>
+
+                    <div class="text-muted small">
+                        De @Model.TotalEjemplaresActivos activos
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+
+                    <h2 class="display-6">
+                        @Model.PrestamosPendientes
+                    </h2>
+
+                    <p class="mb-0">
+                        Préstamos pendientes
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <div class="card h-100 border-danger">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between
+                        align-items-center">
+
+                        <div>
+                            <h2 class="h5">
+                                Préstamos vencidos
+                            </h2>
+
+                            <p class="text-muted mb-0">
+                                Requieren seguimiento.
+                            </p>
+                        </div>
+
+                        <span class="display-6 text-danger">
+                            @Model.PrestamosVencidos
+                        </span>
+
+                    </div>
+
+                    <a asp-controller="Prestamos"
+                       asp-action="Index"
+                       asp-route-estado="Vencido"
+                       class="btn btn-outline-danger mt-3">
+                        Ver préstamos vencidos
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card h-100 border-warning">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between
+                        align-items-center">
+
+                        <div>
+                            <h2 class="h5">
+                                Vencen hoy
+                            </h2>
+
+                            <p class="text-muted mb-0">
+                                Préstamos con vencimiento para hoy.
+                            </p>
+                        </div>
+
+                        <span class="display-6">
+                            @Model.PrestamosVencenHoy
+                        </span>
+
+                    </div>
+
+                    <a asp-controller="Prestamos"
+                       asp-action="Index"
+                       class="btn btn-outline-warning mt-3">
+                        Revisar préstamos
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-2">
+
+        <div class="col-lg-8 mb-4">
+
+            <div class="tarjeta-panel">
+
+                <div class="d-flex justify-content-between
+                    align-items-center mb-3">
+
+                    <div>
+                        <h2 class="h4 mb-1">
+                            Préstamos recientes
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Últimos cinco movimientos registrados.
+                        </p>
+                    </div>
+
+                    <a asp-controller="Prestamos"
+                       asp-action="Index"
+                       class="btn btn-sm btn-outline-primary">
+                        Ver historial completo
+                    </a>
+
+                </div>
+
+                @if (!Model.PrestamosRecientes.Any())
+                {
+                    <div class="alert alert-info mb-0">
+                        No hay préstamos registrados.
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Libro</th>
+                                    <th>Ejemplar</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (
+                                    var prestamo
+                                    in Model.PrestamosRecientes)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @prestamo.UsuarioNombreCompleto
+
+                                            <div class="small text-muted">
+                                                @prestamo.UsuarioCedula
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            @prestamo.LibroTitulo
+                                        </td>
+
+                                        <td>
+                                            @prestamo.EjemplarCodigo
+                                        </td>
+
+                                        <td>
+                                            @(prestamo.FechaPrestamo
+                                                .ToString(
+                                                    "dd/MM/yyyy"))
+                                        </td>
+
+                                        <td>
+                                            @switch (prestamo.Estado)
+                                            {
+                                                case "Activo":
+                                                    <span class="badge bg-primary">
+                                                        Activo
+                                                    </span>
+                                                    break;
+
+                                                case "Vencido":
+                                                    <span class="badge bg-danger">
+                                                        Vencido
+                                                    </span>
+                                                    break;
+
+                                                default:
+                                                    <span class="badge bg-success">
+                                                        Devuelto
+                                                    </span>
+                                                    break;
+                                            }
+                                        </td>
+
+                                        <td class="text-end">
+                                            <a asp-controller="Prestamos"
+                                               asp-action="Detalle"
+                                               asp-route-id="@prestamo.PrestamoId"
+                                               class="btn btn-sm
+                                                btn-outline-info">
+                                                Ver
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="tarjeta-panel">
+
+                <h2 class="h4 mb-3">
+                    Acciones rápidas
+                </h2>
+
+                <div class="d-grid gap-2">
+
+                    <a asp-controller="Prestamos"
+                       asp-action="Crear"
+                       class="btn btn-primary">
+                        Registrar préstamo
+                    </a>
+
+                    <a asp-controller="UsuariosBiblioteca"
+                       asp-action="Crear"
+                       class="btn btn-outline-primary">
+                        Registrar usuario
+                    </a>
+
+                    <a asp-controller="Libros"
+                       asp-action="Crear"
+                       class="btn btn-outline-primary">
+                        Registrar libro
+                    </a>
+
+                    <a asp-controller="Ejemplares"
+                       asp-action="Crear"
+                       class="btn btn-outline-primary">
+                        Registrar ejemplar
+                    </a>
+
+                    <a asp-controller="Catalogo"
+                       asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Abrir catálogo público
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
