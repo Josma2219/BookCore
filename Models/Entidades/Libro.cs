@@ -41,6 +41,9 @@ public partial class Libro
     [InverseProperty("Libro")]
     public virtual ICollection<Ejemplar> Ejemplar { get; set; } = new List<Ejemplar>();
 
+    [InverseProperty("Libro")]
+    public virtual ICollection<Favorito> Favorito { get; set; } = new List<Favorito>();
+
     [ForeignKey("LibroId")]
     [InverseProperty("Libro")]
     public virtual ICollection<Autor> Autor { get; set; } = new List<Autor>();

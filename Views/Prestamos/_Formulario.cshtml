@@ -1,0 +1,111 @@
+﻿@model BookCore.ViewModels.PrestamoFormularioViewModel
+
+<div asp-validation-summary="ModelOnly"
+     class="text-danger mb-3">
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="UsuarioBibliotecaId"
+               class="form-label">
+        </label>
+
+        <select asp-for="UsuarioBibliotecaId"
+                asp-items="Model.UsuariosDisponibles"
+                class="form-select">
+
+            <option value="">
+                Selecciona un usuario
+            </option>
+
+        </select>
+
+        <span asp-validation-for="UsuarioBibliotecaId"
+              class="text-danger">
+        </span>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label asp-for="LibroId"
+               class="form-label">
+        </label>
+
+        <select asp-for="LibroId"
+                asp-items="Model.LibrosDisponibles"
+                id="selectorLibro"
+                class="form-select">
+
+            <option value="">
+                Selecciona un libro
+            </option>
+
+        </select>
+
+        <span asp-validation-for="LibroId"
+              class="text-danger">
+        </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="EjemplarId"
+               class="form-label">
+        </label>
+
+        <select asp-for="EjemplarId"
+                asp-items="Model.EjemplaresDisponibles"
+                id="selectorEjemplar"
+                class="form-select">
+
+            <option value="">
+                Selecciona primero un libro
+            </option>
+
+        </select>
+
+        <span asp-validation-for="EjemplarId"
+              class="text-danger">
+        </span>
+
+        <div id="mensajeEjemplares"
+             class="form-text">
+            Solo se muestran ejemplares activos y disponibles.
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label asp-for="FechaVencimiento"
+               class="form-label">
+        </label>
+
+        <input asp-for="FechaVencimiento"
+               type="date"
+               class="form-control" />
+
+        <span asp-validation-for="FechaVencimiento"
+              class="text-danger">
+        </span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Observaciones"
+           class="form-label">
+    </label>
+
+    <textarea asp-for="Observaciones"
+              class="form-control"
+              rows="4"
+              placeholder="Información adicional del préstamo"></textarea>
+
+    <span asp-validation-for="Observaciones"
+          class="text-danger">
+    </span>
+
+    <div class="form-text">
+        Las observaciones son opcionales.
+    </div>
+</div>
+
+<!-- Aquí mejoramos el diseño cuando trabajemos la interfaz final -->

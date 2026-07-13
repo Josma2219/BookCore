@@ -284,7 +284,10 @@ namespace BookCore.Services
                 .AnyAsync(prestamo =>
                     prestamo.UsuarioBibliotecaId ==
                     usuarioBibliotecaId &&
-                    prestamo.Estado == "Activo");
+                    (
+                        prestamo.Estado == EstadosPrestamo.Activo ||
+                        prestamo.Estado == EstadosPrestamo.Vencido
+                    ));
         }
 
         private static string? LimpiarTextoOpcional(string? texto)

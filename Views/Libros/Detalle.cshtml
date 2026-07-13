@@ -199,6 +199,12 @@
                class="btn btn-outline-success">
                 Agregar ejemplar
             </a>
+            <a asp-controller="Prestamos"
+               asp-action="Crear"
+               asp-route-libroId="@Model.LibroId"
+               class="btn btn-outline-success">
+                Registrar préstamo
+            </a>
 
             <a asp-action="Index"
                class="btn btn-outline-secondary">

@@ -1,0 +1,124 @@
+﻿@model BookCore.ViewModels.PrestamoFormularioViewModel
+
+@{
+    ViewData["Title"] = "Registrar préstamo";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Registrar préstamo</h1>
+
+            <p class="text-muted">
+                Selecciona el usuario, libro y ejemplar que será prestado.
+            </p>
+        </div>
+
+        <form asp-action="Crear"
+              method="post">
+
+            <partial name="_Formulario"
+                     model="Model" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Registrar préstamo
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectorLibro =
+                document.getElementById("selectorLibro");
+
+            const selectorEjemplar =
+                document.getElementById("selectorEjemplar");
+
+            const mensajeEjemplares =
+                document.getElementById("mensajeEjemplares");
+
+            const urlEjemplares =
+                '@Url.Action(
+                                            "ObtenerEjemplaresDisponibles",
+                                            "Prestamos")';
+
+            selectorLibro.addEventListener(
+                "change",
+                async function () {
+
+                    const libroId = selectorLibro.value;
+
+                    selectorEjemplar.innerHTML =
+                        '<option value="">Cargando ejemplares...</option>';
+
+                    if (!libroId) {
+                        selectorEjemplar.innerHTML =
+                            '<option value="">Selecciona primero un libro</option>';
+
+                        mensajeEjemplares.textContent =
+                            "Selecciona un libro para consultar sus ejemplares.";
+
+                        return;
+                    }
+
+                    try {
+                        const respuesta = await fetch(
+                            `${urlEjemplares}?libroId=${libroId}`);
+
+                        if (!respuesta.ok) {
+                            throw new Error(
+                                "No se pudieron consultar los ejemplares.");
+                        }
+
+                        const ejemplares =
+                            await respuesta.json();
+
+                        selectorEjemplar.innerHTML =
+                            '<option value="">Selecciona un ejemplar</option>';
+
+                        if (ejemplares.length === 0) {
+                            mensajeEjemplares.textContent =
+                                "Este libro no tiene ejemplares disponibles.";
+
+                            return;
+                        }
+
+                        for (const ejemplar of ejemplares) {
+                            const opcion =
+                                document.createElement("option");
+
+                            opcion.value = ejemplar.valor;
+                            opcion.textContent = ejemplar.texto;
+
+                            selectorEjemplar.appendChild(opcion);
+                        }
+
+                        mensajeEjemplares.textContent =
+                            "Solo se muestran ejemplares activos y disponibles.";
+                    }
+                    catch (error) {
+                        selectorEjemplar.innerHTML =
+                            '<option value="">No fue posible cargar los ejemplares</option>';
+
+                        mensajeEjemplares.textContent =
+                            "Ocurrió un error consultando los ejemplares.";
+                    }
+                });
+        });
+    </script>
+}

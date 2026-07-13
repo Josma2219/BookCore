@@ -3,104 +3,101 @@
 }
 
 <div class="contenedor-pagina">
-    <div class="tarjeta-panel">
 
-        <div class="text-center mb-4">
+    <div class="tarjeta-panel text-center py-5">
 
-            <h1 class="display-4">
-                BookCore
-            </h1>
+        <h1 class="display-4 fw-bold">
+            BookCore
+        </h1>
 
-            <p class="lead">
-                Sistema de gestión de biblioteca
-            </p>
+        <p class="lead text-muted mt-3">
+            Consulta libros, autores, categorías
+            y disponibilidad de ejemplares.
+        </p>
 
-            <span class="badge bg-secondary">
-                Fase 1 de desarrollo
-            </span>
+        <div class="d-flex justify-content-center
+            flex-wrap gap-2 mt-4">
 
-        </div>
+            <a asp-controller="Catalogo"
+               asp-action="Index"
+               class="btn btn-primary btn-lg">
+                Explorar catálogo
+            </a>
 
-        <hr />
-
-        <div class="row mt-4">
-
-            <div class="col-md-3 mb-3">
-                <div class="card h-100">
-
-                    <div class="card-body text-center">
-
-                        <h2 class="card-title">
-                            @ViewBag.TotalLibros
-                        </h2>
-
-                        <p class="card-text">
-                            Libros registrados
-                        </p>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-3">
-                <div class="card h-100">
-
-                    <div class="card-body text-center">
-
-                        <h2 class="card-title">
-                            @ViewBag.TotalCategorias
-                        </h2>
-
-                        <p class="card-text">
-                            Categorías registradas
-                        </p>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-3">
-                <div class="card h-100">
-
-                    <div class="card-body text-center">
-
-                        <h2 class="card-title">
-                            @ViewBag.TotalAutores
-                        </h2>
-
-                        <p class="card-text">
-                            Autores registrados
-                        </p>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-3">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <h2 class="card-title">
-                            @ViewBag.TotalUsuarios
-                        </h2>
-
-                        <p class="card-text">
-                            Usuarios registrados
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Luego cambiamos esta parte por el dashboard administrativo real -->
-        <div class="alert alert-light border mt-3 mb-0">
-
-            <strong>Estado actual:</strong>
-
-            conexión con SQL Server y módulos de categorías
-            y autores en desarrollo.
+            @if (User.IsInRole("Administrador"))
+            {
+                <a asp-controller="Panel"
+                   asp-action="Index"
+                   class="btn btn-outline-primary btn-lg">
+                    Abrir panel administrativo
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Cuenta"
+                   asp-action="IniciarSesion"
+                   class="btn btn-outline-secondary btn-lg">
+                    Acceso administrativo
+                </a>
+            }
 
         </div>
 
     </div>
+
+    <div class="row mt-4">
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+
+                    <h2 class="h4">
+                        Buscar libros
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Localiza libros por título, autor
+                        o categoría.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+
+                    <h2 class="h4">
+                        Consultar disponibilidad
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Revisa cuántos ejemplares están
+                        disponibles actualmente.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+
+                    <h2 class="h4">
+                        Información detallada
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Consulta autores, editorial,
+                        publicación y descripción.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </div>

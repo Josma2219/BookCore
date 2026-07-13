@@ -82,6 +82,19 @@
                class="btn btn-primary">
                 Editar
             </a>
+            <a asp-controller="Prestamos"
+               asp-action="Crear"
+               asp-route-usuarioBibliotecaId="@Model.UsuarioBibliotecaId"
+               class="btn btn-outline-success">
+                Registrar préstamo
+            </a>
+
+            <a asp-controller="CuentasUsuarios"
+               asp-action="Configurar"
+               asp-route-usuarioBibliotecaId="@Model.UsuarioBibliotecaId"
+               class="btn btn-outline-primary">
+                Configurar acceso
+            </a>
 
             <a asp-action="Index"
                class="btn btn-outline-secondary">

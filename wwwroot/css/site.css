@@ -47,3 +47,23 @@ body {
     font-size: 0.9rem;
     color: #6c757d;
 }
+
+/* =========================================================
+   BARRA DE TIEMPO DE LOS PRÉSTAMOS
+   ========================================================= */
+
+.celda-tiempo-prestamo {
+    min-width: 230px;
+}
+
+.barra-tiempo-prestamo {
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+    .barra-tiempo-prestamo .progress-bar {
+        border-radius: 999px;
+        transition: width 0.4s ease;
+    }

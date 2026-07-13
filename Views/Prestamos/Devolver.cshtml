@@ -1,0 +1,86 @@
+﻿@model BookCore.ViewModels.PrestamoDetalleViewModel
+
+@{
+    ViewData["Title"] = "Registrar devolución";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="alert alert-info">
+            Al confirmar, el préstamo quedará devuelto y el
+            ejemplar volverá a estar disponible.
+        </div>
+
+        <h1>Registrar devolución</h1>
+
+        <p>
+            Confirma la devolución del ejemplar
+            <strong>@Model.EjemplarCodigo</strong>
+            del libro
+            <strong>@Model.LibroTitulo</strong>.
+        </p>
+
+        <dl class="row mt-4">
+
+            <dt class="col-sm-3">
+                Usuario
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.UsuarioNombreCompleto
+            </dd>
+
+            <dt class="col-sm-3">
+                Fecha de préstamo
+            </dt>
+
+            <dd class="col-sm-9">
+                @(Model.FechaPrestamo.ToString(
+                    "dd/MM/yyyy HH:mm"))
+            </dd>
+
+            <dt class="col-sm-3">
+                Fecha de vencimiento
+            </dt>
+
+            <dd class="col-sm-9">
+                @(Model.FechaVencimiento.ToString(
+                    "dd/MM/yyyy"))
+            </dd>
+
+            <dt class="col-sm-3">
+                Estado actual
+            </dt>
+
+            <dd class="col-sm-9">
+                @Model.Estado
+            </dd>
+
+        </dl>
+
+        <form asp-action="ConfirmarDevolucion"
+              method="post">
+
+            <input type="hidden"
+                   name="prestamoId"
+                   value="@Model.PrestamoId" />
+
+            <div class="d-flex gap-2 mt-4">
+
+                <button type="submit"
+                        class="btn btn-success">
+                    Confirmar devolución
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,250 @@
+﻿@using System.Collections.Generic
+@model BookCore.ViewModels.CatalogoIndiceViewModel
+
+@{
+    ViewData["Title"] = "Catálogo";
+
+    HashSet<int> favoritos =
+        ViewBag.Favoritos as HashSet<int>
+        ?? new HashSet<int>();
+
+    string returnUrl =
+        Context.Request.Path.ToString() +
+        Context.Request.QueryString.ToString();
+}
+
+<div class="contenedor-pagina">
+
+    <div class="mb-4">
+        <h1>Catálogo de libros</h1>
+
+        <p class="text-muted">
+            Consulta los libros y su disponibilidad.
+        </p>
+    </div>
+
+    <div class="tarjeta-panel mb-4">
+
+        <form asp-controller="Catalogo"
+              asp-action="Index"
+              method="get"
+              class="row g-3">
+
+            <div class="col-md-7">
+                <label asp-for="Busqueda"
+                       class="form-label">
+                    Buscar
+                </label>
+
+                <input asp-for="Busqueda"
+                       class="form-control"
+                       placeholder="Título, autor o editorial" />
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="CategoriaId"
+                       class="form-label">
+                    Categoría
+                </label>
+
+                <select asp-for="CategoriaId"
+                        asp-items="Model.Categorias"
+                        class="form-select">
+
+                    <option value="">
+                        Todas las categorías
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="col-md-2 d-flex align-items-end gap-2">
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Buscar
+                </button>
+
+                <a asp-controller="Catalogo"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Limpiar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    @if (!Model.Libros.Any())
+    {
+        <div class="alert alert-info">
+            No se encontraron libros.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+
+            @foreach (var libro in Model.Libros)
+            {
+                bool esFavorito =
+                    favoritos.Contains(libro.LibroId);
+
+                <div class="col-md-6 col-lg-4 mb-4">
+
+                    <div class="card h-100">
+
+                        @if (!string.IsNullOrWhiteSpace(
+                            libro.ImagenUrl))
+                        {
+                            <img src="@libro.ImagenUrl"
+                                 class="card-img-top"
+                                 alt="Portada de @libro.Titulo"
+                                 style="height: 300px;
+                            object-fit: contain;" />
+                        }
+                        else
+                        {
+                            <div class="d-flex
+                                justify-content-center
+                                align-items-center
+                                bg-light text-muted"
+                                 style="height: 300px;">
+
+                                <span>
+                                    Sin portada
+                                </span>
+
+                            </div>
+                        }
+
+                        <div class="card-body d-flex flex-column">
+
+                            <h2 class="h5 card-title">
+                                @libro.Titulo
+                            </h2>
+
+                            <p class="text-muted mb-2">
+                                @libro.Autores
+                            </p>
+
+                            <p class="mb-2">
+                                <strong>Categoría:</strong>
+                                @libro.CategoriaNombre
+                            </p>
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                libro.Editorial))
+                            {
+                                <p class="small text-muted mb-2">
+                                    Editorial: @libro.Editorial
+                                </p>
+                            }
+
+                            @if (libro.AnioPublicacion.HasValue)
+                            {
+                                <p class="small text-muted mb-2">
+                                    Año: @libro.AnioPublicacion
+                                </p>
+                            }
+
+                            @if (libro.Disponible)
+                            {
+                                <span class="badge bg-success
+                                    align-self-start mb-3">
+
+                                    @libro.EjemplaresDisponibles
+                                    disponible(s)
+
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary
+                                    align-self-start mb-3">
+
+                                    No disponible
+
+                                </span>
+                            }
+
+                            <div class="d-grid gap-2 mt-auto">
+
+                                @if (User.IsInRole("Usuario"))
+                                {
+                                    @if (esFavorito)
+                                    {
+                                        <form asp-controller="Favoritos"
+                                              asp-action="Eliminar"
+                                              method="post">
+
+                                            <input type="hidden"
+                                                   name="libroId"
+                                                   value="@libro.LibroId" />
+
+                                            <input type="hidden"
+                                                   name="returnUrl"
+                                                   value="@returnUrl" />
+
+                                            <button type="submit"
+                                                    class="btn
+                                                btn-outline-danger
+                                                w-100">
+
+                                                Quitar de favoritos
+
+                                            </button>
+
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-controller="Favoritos"
+                                              asp-action="Agregar"
+                                              method="post">
+
+                                            <input type="hidden"
+                                                   name="libroId"
+                                                   value="@libro.LibroId" />
+
+                                            <input type="hidden"
+                                                   name="returnUrl"
+                                                   value="@returnUrl" />
+
+                                            <button type="submit"
+                                                    class="btn
+                                                btn-outline-danger
+                                                w-100">
+
+                                                Agregar a favoritos
+
+                                            </button>
+
+                                        </form>
+                                    }
+                                }
+
+                                <a asp-controller="Catalogo"
+                                   asp-action="Detalle"
+                                   asp-route-id="@libro.LibroId"
+                                   class="btn btn-outline-primary">
+
+                                    Ver detalle
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

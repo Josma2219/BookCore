@@ -1,0 +1,246 @@
+﻿@model BookCore.ViewModels.LibroDetalleViewModel
+
+@{
+    ViewData["Title"] = Model.Titulo;
+
+    bool esFavorito =
+        ViewBag.EsFavorito == true;
+
+    string returnUrl =
+        Context.Request.Path.ToString() +
+        Context.Request.QueryString.ToString();
+}
+
+<div class="contenedor-pagina">
+
+    <div class="tarjeta-panel">
+
+        <div class="row">
+
+            @if (!string.IsNullOrWhiteSpace(
+                Model.ImagenUrl))
+            {
+                <div class="col-md-3 mb-4">
+
+                    <img src="@Model.ImagenUrl"
+                         alt="Portada de @Model.Titulo"
+                         class="img-fluid rounded border"
+                         style="width: 100%;
+                    max-height: 420px;
+                    object-fit: contain;" />
+
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3 mb-4">
+
+                    <div class="d-flex
+                        justify-content-center
+                        align-items-center
+                        bg-light border rounded
+                        text-muted"
+                         style="height: 360px;">
+
+                        Sin portada
+
+                    </div>
+
+                </div>
+            }
+
+            <div class="col-md-9">
+
+                <h1>
+                    @Model.Titulo
+                </h1>
+
+                <p class="lead text-muted">
+                    @Model.Autores
+                </p>
+
+                <dl class="row mt-4">
+
+                    <dt class="col-sm-4">
+                        Categoría
+                    </dt>
+
+                    <dd class="col-sm-8">
+                        @Model.CategoriaNombre
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        ISBN
+                    </dt>
+
+                    <dd class="col-sm-8">
+
+                        @(string.IsNullOrWhiteSpace(Model.Isbn)
+                            ? "No indicado"
+                            : Model.Isbn)
+
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        Editorial
+                    </dt>
+
+                    <dd class="col-sm-8">
+
+                        @(string.IsNullOrWhiteSpace(Model.Editorial)
+                            ? "No indicada"
+                            : Model.Editorial)
+
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        Año de publicación
+                    </dt>
+
+                    <dd class="col-sm-8">
+
+                        @(Model.AnioPublicacion?.ToString()
+                            ?? "No indicado")
+
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        Disponibilidad
+                    </dt>
+
+                    <dd class="col-sm-8">
+
+                        @if (Model.EjemplaresDisponibles > 0)
+                        {
+                            <span class="badge bg-success">
+
+                                @Model.EjemplaresDisponibles
+                                ejemplar(es) disponible(s)
+
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+
+                                No disponible
+
+                            </span>
+                        }
+
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        Ejemplares registrados
+                    </dt>
+
+                    <dd class="col-sm-8">
+                        @Model.TotalEjemplares
+                    </dd>
+
+                </dl>
+
+            </div>
+
+        </div>
+
+        <hr />
+
+        <h2 class="h4">
+            Descripción
+        </h2>
+
+        @if (string.IsNullOrWhiteSpace(
+            Model.Descripcion))
+        {
+            <p class="text-muted">
+                Este libro no tiene una descripción registrada.
+            </p>
+        }
+        else
+        {
+            <p>
+                @Model.Descripcion
+            </p>
+        }
+
+        <div class="d-flex
+            flex-wrap
+            gap-2
+            mt-4">
+
+            <a asp-controller="Catalogo"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+
+                Volver al catálogo
+
+            </a>
+
+            @if (User.IsInRole("Usuario"))
+            {
+                @if (esFavorito)
+                {
+                    <form asp-controller="Favoritos"
+                          asp-action="Eliminar"
+                          method="post">
+
+                        <input type="hidden"
+                               name="libroId"
+                               value="@Model.LibroId" />
+
+                        <input type="hidden"
+                               name="returnUrl"
+                               value="@returnUrl" />
+
+                        <button type="submit"
+                                class="btn btn-outline-danger">
+
+                            Quitar de favoritos
+
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="Favoritos"
+                          asp-action="Agregar"
+                          method="post">
+
+                        <input type="hidden"
+                               name="libroId"
+                               value="@Model.LibroId" />
+
+                        <input type="hidden"
+                               name="returnUrl"
+                               value="@returnUrl" />
+
+                        <button type="submit"
+                                class="btn btn-outline-danger">
+
+                            Agregar a favoritos
+
+                        </button>
+
+                    </form>
+                }
+            }
+
+            @if (User.IsInRole("Administrador"))
+            {
+                <a asp-controller="Libros"
+                   asp-action="Detalle"
+                   asp-route-id="@Model.LibroId"
+                   class="btn btn-primary">
+
+                    Administrar libro
+
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+</div>
