@@ -1,0 +1,42 @@
+﻿@model BookCore.ViewModels.AutorViewModel
+
+@{
+    ViewData["Title"] = "Editar autor";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Editar autor</h1>
+
+            <p class="text-muted">
+                Modifica la información del autor seleccionado.
+            </p>
+        </div>
+
+        <form asp-action="Editar"
+              asp-route-id="@Model.AutorId"
+              method="post">
+
+            <partial name="_Formulario"
+                     model="Model" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Guardar cambios
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,47 @@
+﻿@model BookCore.ViewModels.EjemplarListadoViewModel
+
+@{
+    ViewData["Title"] = "Eliminar ejemplar";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="alert alert-warning">
+            El ejemplar quedará inactivo y con estado de baja,
+            pero se conservará su historial.
+        </div>
+
+        <h1>Eliminar ejemplar</h1>
+
+        <p>
+            ¿Seguro que deseas desactivar el ejemplar
+            <strong>@Model.CodigoInterno</strong>
+            del libro
+            <strong>@Model.LibroTitulo</strong>?
+        </p>
+
+        <form asp-action="ConfirmarEliminacion"
+              method="post">
+
+            <input type="hidden"
+                   name="ejemplarId"
+                   value="@Model.EjemplarId" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-danger">
+                    Confirmar eliminación
+                </button>
+
+                <a asp-action="Index"
+                   asp-route-libroId="@Model.LibroId"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,100 @@
+﻿@model BookCore.ViewModels.AutorViewModel
+
+<input asp-for="AutorId" type="hidden" />
+
+<div asp-validation-summary="ModelOnly"
+     class="text-danger mb-3">
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="Nombre"
+               class="form-label">
+        </label>
+
+        <input asp-for="Nombre"
+               class="form-control"
+               placeholder="Ejemplo: Gabriel" />
+
+        <span asp-validation-for="Nombre"
+              class="text-danger">
+        </span>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label asp-for="Apellidos"
+               class="form-label">
+        </label>
+
+        <input asp-for="Apellidos"
+               class="form-control"
+               placeholder="Ejemplo: García Márquez" />
+
+        <span asp-validation-for="Apellidos"
+              class="text-danger">
+        </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="Nacionalidad"
+               class="form-label">
+        </label>
+
+        <input asp-for="Nacionalidad"
+               class="form-control"
+               placeholder="Ejemplo: Colombiana" />
+
+        <span asp-validation-for="Nacionalidad"
+              class="text-danger">
+        </span>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label asp-for="FechaNacimiento"
+               class="form-label">
+        </label>
+
+        <input asp-for="FechaNacimiento"
+               type="date"
+               class="form-control" />
+
+        <span asp-validation-for="FechaNacimiento"
+              class="text-danger">
+        </span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Biografia"
+           class="form-label">
+    </label>
+
+    <textarea asp-for="Biografia"
+              class="form-control"
+              rows="5"
+              placeholder="Escribe una pequeña biografía del autor"></textarea>
+
+    <span asp-validation-for="Biografia"
+          class="text-danger">
+    </span>
+
+    <div class="form-text">
+        La biografía es opcional.
+    </div>
+</div>
+
+@if (Model.AutorId > 0)
+{
+    <div class="form-check mb-3">
+        <input asp-for="Activo"
+               class="form-check-input" />
+
+        <label asp-for="Activo"
+               class="form-check-label">
+        </label>
+    </div>
+}
+
+<!-- Aquí ajustamos distribución, colores e inputs cuando hagamos el diseño final -->

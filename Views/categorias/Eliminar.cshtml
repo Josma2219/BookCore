@@ -1,0 +1,43 @@
+﻿@model BookCore.ViewModels.CategoriaViewModel
+
+@{
+    ViewData["Title"] = "Eliminar categoría";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="alert alert-warning">
+            Esta categoría quedará inactiva, pero no se borrará
+            físicamente de la base de datos.
+        </div>
+
+        <h1>Eliminar categoría</h1>
+
+        <p>
+            ¿Seguro que deseas desactivar la categoría
+            <strong>@Model.Nombre</strong>?
+        </p>
+
+        <form asp-action="ConfirmarEliminacion"
+              method="post">
+
+            <input type="hidden"
+                   name="categoriaId"
+                   value="@Model.CategoriaId" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-danger">
+                    Confirmar eliminación
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model BookCore.ViewModels.EjemplarFormularioViewModel
+
+@{
+    ViewData["Title"] = "Crear ejemplar";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="mb-4">
+            <h1>Crear ejemplar</h1>
+
+            <p class="text-muted">
+                Registra una nueva copia física de un libro.
+            </p>
+        </div>
+
+        <form asp-action="Crear"
+              method="post">
+
+            <partial name="_Formulario"
+                     model="Model" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Guardar ejemplar
+                </button>
+
+                <a asp-action="Index"
+                   asp-route-libroId="@Model.LibroId"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

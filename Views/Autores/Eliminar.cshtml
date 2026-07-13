@@ -1,0 +1,42 @@
+﻿@model BookCore.ViewModels.AutorViewModel
+
+@{
+    ViewData["Title"] = "Eliminar autor";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="alert alert-warning">
+            El autor quedará inactivo, pero no se borrará
+            físicamente de la base de datos.
+        </div>
+
+        <h1>Eliminar autor</h1>
+
+        <p>
+            ¿Seguro que deseas desactivar al autor
+            <strong>@Model.NombreCompleto</strong>?
+        </p>
+
+        <form asp-action="ConfirmarEliminacion"
+              method="post">
+
+            <input type="hidden"
+                   name="autorId"
+                   value="@Model.AutorId" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-danger">
+                    Confirmar eliminación
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

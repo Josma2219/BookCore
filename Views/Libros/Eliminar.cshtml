@@ -1,0 +1,47 @@
+﻿@model BookCore.ViewModels.LibroDetalleViewModel
+
+@{
+    ViewData["Title"] = "Eliminar libro";
+}
+
+<div class="contenedor-pagina">
+    <div class="tarjeta-panel">
+
+        <div class="alert alert-warning">
+            El libro quedará inactivo, pero se conservarán sus
+            autores, ejemplares y registros históricos.
+        </div>
+
+        <h1>Eliminar libro</h1>
+
+        <p>
+            ¿Seguro que deseas desactivar el libro
+            <strong>@Model.Titulo</strong>?
+        </p>
+
+        <p class="text-muted">
+            Autor o autores: @Model.Autores
+        </p>
+
+        <form asp-action="ConfirmarEliminacion"
+              method="post">
+
+            <input type="hidden"
+                   name="libroId"
+                   value="@Model.LibroId" />
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit"
+                        class="btn btn-danger">
+                    Confirmar eliminación
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>

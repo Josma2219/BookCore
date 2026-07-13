@@ -4,8 +4,12 @@
 
 <div class="contenedor-pagina">
     <div class="tarjeta-panel">
+
         <div class="text-center mb-4">
-            <h1 class="display-4">BookCore</h1>
+
+            <h1 class="display-4">
+                BookCore
+            </h1>
 
             <p class="lead">
                 Sistema de gestión de biblioteca
@@ -14,14 +18,18 @@
             <span class="badge bg-secondary">
                 Fase 1 de desarrollo
             </span>
+
         </div>
 
         <hr />
 
         <div class="row mt-4">
-            <div class="col-md-6 mb-3">
+
+            <div class="col-md-3 mb-3">
                 <div class="card h-100">
+
                     <div class="card-body text-center">
+
                         <h2 class="card-title">
                             @ViewBag.TotalLibros
                         </h2>
@@ -29,13 +37,16 @@
                         <p class="card-text">
                             Libros registrados
                         </p>
+
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <div class="card h-100">
+
                     <div class="card-body text-center">
+
                         <h2 class="card-title">
                             @ViewBag.TotalCategorias
                         </h2>
@@ -43,15 +54,53 @@
                         <p class="card-text">
                             Categorías registradas
                         </p>
+
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+
+                    <div class="card-body text-center">
+
+                        <h2 class="card-title">
+                            @ViewBag.TotalAutores
+                        </h2>
+
+                        <p class="card-text">
+                            Autores registrados
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h2 class="card-title">
+                            @ViewBag.TotalUsuarios
+                        </h2>
+
+                        <p class="card-text">
+                            Usuarios registrados
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Más adelante esta zona tendrá accesos al catálogo y al panel administrativo -->
+        <!-- Luego cambiamos esta parte por el dashboard administrativo real -->
         <div class="alert alert-light border mt-3 mb-0">
+
             <strong>Estado actual:</strong>
-            conexión con SQL Server y lectura de datos mediante Entity Framework.
+
+            conexión con SQL Server y módulos de categorías
+            y autores en desarrollo.
+
         </div>
+
     </div>
 </div>
