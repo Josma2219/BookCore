@@ -12,6 +12,9 @@
 
     <script type="importmap"></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
@@ -30,10 +33,7 @@
 
         <nav class="navbar
             navbar-expand-lg
-            navbar-light
-            bg-white
-            border-bottom
-            box-shadow
+            navbar-dark
             mb-3">
 
             <div class="container-fluid">
@@ -329,7 +329,7 @@
 
     </header>
 
-    <div class="container">
+    <div class="container contenido-principal">
 
         <main role="main"
               class="pb-3">
@@ -342,13 +342,17 @@
 
     </div>
 
-    <footer class="border-top
-        footer
-        text-muted">
+    <footer class="footer">
 
-        <div class="container">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
 
-            &copy; @DateTime.Now.Year - BookCore
+            <span class="pie-marca">
+                📚 BookCore
+            </span>
+
+            <span>
+                &copy; @DateTime.Now.Year - Biblioteca Inteligente
+            </span>
 
         </div>
 

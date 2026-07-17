@@ -18,7 +18,7 @@
     <div class="mb-4">
         <h1>Catálogo de libros</h1>
 
-        <p class="text-muted">
+        <p class="texto-secundario">
             Consulta los libros y su disponibilidad.
         </p>
     </div>
@@ -110,7 +110,7 @@
                             <div class="d-flex
                                 justify-content-center
                                 align-items-center
-                                bg-light text-muted"
+                                bg-light texto-secundario"
                                  style="height: 300px;">
 
                                 <span>
@@ -126,7 +126,7 @@
                                 @libro.Titulo
                             </h2>
 
-                            <p class="text-muted mb-2">
+                            <p class="texto-secundario mb-2">
                                 @libro.Autores
                             </p>
 
@@ -138,14 +138,14 @@
                             @if (!string.IsNullOrWhiteSpace(
                                 libro.Editorial))
                             {
-                                <p class="small text-muted mb-2">
+                                <p class="small texto-secundario mb-2">
                                     Editorial: @libro.Editorial
                                 </p>
                             }
 
                             @if (libro.AnioPublicacion.HasValue)
                             {
-                                <p class="small text-muted mb-2">
+                                <p class="small texto-secundario mb-2">
                                     Año: @libro.AnioPublicacion
                                 </p>
                             }

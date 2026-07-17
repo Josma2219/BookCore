@@ -2,100 +2,243 @@
     ViewData["Title"] = "Inicio";
 }
 
-<div class="contenedor-pagina">
+<div class="hero-bookcore">
 
-    <div class="tarjeta-panel text-center py-5">
+    <div class="hero-overlay"></div>
 
-        <h1 class="display-4 fw-bold">
-            BookCore
-        </h1>
+    <div class="container">
 
-        <p class="lead text-muted mt-3">
-            Consulta libros, autores, categorías
-            y disponibilidad de ejemplares.
-        </p>
+        <div class="row align-items-center min-vh-75">
 
-        <div class="d-flex justify-content-center
-            flex-wrap gap-2 mt-4">
+            <div class="col-lg-7">
 
-            <a asp-controller="Catalogo"
-               asp-action="Index"
-               class="btn btn-primary btn-lg">
-                Explorar catálogo
-            </a>
+                <span class="badge bg-success px-4 py-2 mb-4 rounded-pill shadow">
+                    Biblioteca Inteligente
+                </span>
 
-            @if (User.IsInRole("Administrador"))
-            {
-                <a asp-controller="Panel"
-                   asp-action="Index"
-                   class="btn btn-outline-primary btn-lg">
-                    Abrir panel administrativo
-                </a>
-            }
-            else
-            {
-                <a asp-controller="Cuenta"
-                   asp-action="IniciarSesion"
-                   class="btn btn-outline-secondary btn-lg">
-                    Acceso administrativo
-                </a>
-            }
+                <h1 class="display-2 fw-bold text-white">
+
+                    Descubre un nuevo
+                    <span class="text-success">
+                        mundo de libros
+                    </span>
+
+                </h1>
+
+                <p class="lead text-light mt-4 mb-5">
+
+                    Explora miles de libros, encuentra autores,
+                    consulta disponibilidad en tiempo real y administra
+                    tu biblioteca desde una plataforma moderna.
+
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+
+                    <a asp-controller="Catalogo"
+                       asp-action="Index"
+                       class="btn btn-success btn-lg px-5 py-3 shadow">
+
+                        📚 Explorar Catálogo
+
+                    </a>
+
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <a asp-controller="Panel"
+                           asp-action="Index"
+                           class="btn btn-light btn-lg px-5 py-3">
+
+                            ⚙ Panel Administrativo
+
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Cuenta"
+                           asp-action="IniciarSesion"
+                           class="btn btn-outline-light btn-lg px-5 py-3">
+
+                            Iniciar Sesión
+
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-5 text-center mt-5 mt-lg-0">
+
+                <div class="glass-card">
+
+                    <div class="display-1 mb-3">
+
+                        📚
+
+                    </div>
+
+                    <h3 class="fw-bold">
+
+                        BookCORE
+
+                    </h3>
+
+                    <p class="mb-4">
+
+                        Gestiona préstamos, autores,
+                        categorías y disponibilidad
+                        desde un solo lugar.
+
+                    </p>
+
+                    <div class="row">
+
+                        <div class="col-4">
+
+                            <h2 class="fw-bold text-success">
+
+                                24/7
+
+                            </h2>
+
+                            <small>
+
+                                Disponible
+
+                            </small>
+
+                        </div>
+
+                        <div class="col-4">
+
+                            <h2 class="fw-bold text-success">
+
+                                100%
+
+                            </h2>
+
+                            <small>
+
+                                Seguro
+
+                            </small>
+
+                        </div>
+
+                        <div class="col-4">
+
+                            <h2 class="fw-bold text-success">
+
+                                ∞
+
+                            </h2>
+
+                            <small>
+
+                                Libros
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
-    <div class="row mt-4">
+</div>
 
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
+<div class="container mt-5">
 
-                    <h2 class="h4">
-                        Buscar libros
-                    </h2>
+    <div class="row g-4">
 
-                    <p class="text-muted mb-0">
-                        Localiza libros por título, autor
-                        o categoría.
-                    </p>
+        <div class="col-lg-4">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    🔍
 
                 </div>
+
+                <h3>
+
+                    Búsqueda Inteligente
+
+                </h3>
+
+                <p>
+
+                    Encuentra cualquier libro por título,
+                    autor, categoría o editorial
+                    en cuestión de segundos.
+
+                </p>
+
             </div>
+
         </div>
 
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
+        <div class="col-lg-4">
 
-                    <h2 class="h4">
-                        Consultar disponibilidad
-                    </h2>
+            <div class="feature-card">
 
-                    <p class="text-muted mb-0">
-                        Revisa cuántos ejemplares están
-                        disponibles actualmente.
-                    </p>
+                <div class="feature-icon">
+
+                    📖
 
                 </div>
+
+                <h3>
+
+                    Catálogo Completo
+
+                </h3>
+
+                <p>
+
+                    Consulta la información completa
+                    de cada libro y su disponibilidad.
+
+                </p>
+
             </div>
+
         </div>
 
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
+        <div class="col-lg-4">
 
-                    <h2 class="h4">
-                        Información detallada
-                    </h2>
+            <div class="feature-card">
 
-                    <p class="text-muted mb-0">
-                        Consulta autores, editorial,
-                        publicación y descripción.
-                    </p>
+                <div class="feature-icon">
+
+                    🚀
 
                 </div>
+
+                <h3>
+
+                    Gestión Moderna
+
+                </h3>
+
+                <p>
+
+                    Administra préstamos,
+                    devoluciones y usuarios
+                    desde una interfaz moderna.
+
+                </p>
+
             </div>
+
         </div>
 
     </div>
