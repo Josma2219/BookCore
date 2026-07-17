@@ -142,6 +142,71 @@ namespace BookCore.Services
                 .Take(5)
                 .ToListAsync();
 
+            // Libros activos (para poder incluir en "menos rentados"
+            // también a los que nunca se han prestado).
+            var librosActivos = await _contexto
+                .Set<Libro>()
+                .AsNoTracking()
+                .Where(libro => libro.Activo)
+                .Select(libro => new
+                {
+                    libro.LibroId,
+                    libro.Titulo
+                })
+                .ToListAsync();
+
+            var conteoPorLibro = await (
+                from prestamo in _contexto
+                    .Set<Prestamo>()
+                    .AsNoTracking()
+
+                join ejemplar in _contexto
+                    .Set<Ejemplar>()
+                    .AsNoTracking()
+                    on prestamo.EjemplarId
+                    equals ejemplar.EjemplarId
+
+                group prestamo by ejemplar.LibroId into grupo
+
+                select new
+                {
+                    LibroId = grupo.Key,
+                    Total = grupo.Count()
+                })
+                .ToListAsync();
+
+            var mapaConteo = conteoPorLibro
+                .ToDictionary(
+                    x => x.LibroId,
+                    x => x.Total);
+
+            var ranking = librosActivos
+                .Select(libro => new LibroRankingViewModel
+                {
+                    LibroId = libro.LibroId,
+                    Titulo = libro.Titulo,
+                    TotalPrestamos = mapaConteo
+                        .TryGetValue(
+                            libro.LibroId,
+                            out int total)
+                        ? total
+                        : 0
+                })
+                .ToList();
+
+            var librosMasRentados = ranking
+                .OrderByDescending(
+                    libro => libro.TotalPrestamos)
+                .ThenBy(libro => libro.Titulo)
+                .Take(5)
+                .ToList();
+
+            var librosMenosRentados = ranking
+                .OrderBy(libro => libro.TotalPrestamos)
+                .ThenBy(libro => libro.Titulo)
+                .Take(5)
+                .ToList();
+
             return new PanelAdministrativoViewModel
             {
                 TotalLibrosActivos =
@@ -166,7 +231,13 @@ namespace BookCore.Services
                     prestamosVencenHoy,
 
                 PrestamosRecientes =
-                    prestamosRecientes
+                    prestamosRecientes,
+
+                LibrosMasRentados =
+                    librosMasRentados,
+
+                LibrosMenosRentados =
+                    librosMenosRentados
             };
         }
     }

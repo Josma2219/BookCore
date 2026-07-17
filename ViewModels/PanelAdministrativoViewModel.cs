@@ -19,5 +19,13 @@
         public List<PrestamoListadoViewModel>
             PrestamosRecientes
         { get; set; } = [];
+
+        public List<LibroRankingViewModel>
+            LibrosMasRentados
+        { get; set; } = [];
+
+        public List<LibroRankingViewModel>
+            LibrosMenosRentados
+        { get; set; } = [];
     }
 }

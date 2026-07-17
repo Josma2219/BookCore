@@ -17,6 +17,10 @@ namespace BookCore.Controllers
         {
             return View();
         }
+        public IActionResult MoonByte()
+        {
+            return View();
+        }
 
         [ResponseCache(
             Duration = 0,

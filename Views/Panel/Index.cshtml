@@ -25,38 +25,6 @@
                 Model.PrestamosVencenHoy * 100.0 /
                 Model.PrestamosPendientes)
             : 0;
-
-    // ============================================================
-    // DATOS DE EJEMPLO — SOLO TEMPORAL PARA EL DISEÑO VISUAL.
-    //
-    // Cuando el backend agregue "LibrosMasRentados" y
-    // "LibrosMenosRentados" al PanelAdministrativoViewModel,
-    // borrar estas dos listas y usar en su lugar:
-    //
-    //     Model.LibrosMasRentados
-    //     Model.LibrosMenosRentados
-    //
-    // (deben traer objetos con .Titulo y .TotalPrestamos, igual
-    // que estos de ejemplo, para que el resto del código de abajo
-    // no necesite cambios).
-    // ============================================================
-    var librosMasRentadosEjemplo = new List<(string Titulo, int TotalPrestamos)>
-    {
-        ("Cien años de soledad", 18),
-        ("1984", 15),
-        ("El principito", 12),
-        ("Rayuela", 9),
-        ("Ficciones", 7)
-    };
-
-    var librosMenosRentadosEjemplo = new List<(string Titulo, int TotalPrestamos)>
-    {
-        ("Manual de contabilidad avanzada", 0),
-        ("Historia de la cerámica", 0),
-        ("Introducción al cálculo III", 1),
-        ("Geografía regional", 1),
-        ("Tratado de botánica", 2)
-    };
 }
 
 <div class="contenedor-pagina">
@@ -95,7 +63,7 @@
                     Según el total de préstamos registrados.
                 </p>
 
-                @if (!librosMasRentadosEjemplo.Any())
+                @if (!Model.LibrosMasRentados.Any())
                 {
                     <p class="texto-secundario small mb-0">
                         Todavía no hay préstamos registrados.
@@ -107,7 +75,7 @@
                         @{
                             int posicion = 1;
                         }
-                        @foreach (var libro in librosMasRentadosEjemplo)
+                        @foreach (var libro in Model.LibrosMasRentados)
                         {
                             <div class="ranking-item">
                                 <span class="ranking-numero top">@posicion</span>
@@ -132,7 +100,7 @@
                     Candidatos a revisar o promocionar.
                 </p>
 
-                @if (!librosMenosRentadosEjemplo.Any())
+                @if (!Model.LibrosMenosRentados.Any())
                 {
                     <p class="texto-secundario small mb-0">
                         Todavía no hay libros activos registrados.
@@ -144,7 +112,7 @@
                         @{
                             int posicionBaja = 1;
                         }
-                        @foreach (var libro in librosMenosRentadosEjemplo)
+                        @foreach (var libro in Model.LibrosMenosRentados)
                         {
                             <div class="ranking-item">
                                 <span class="ranking-numero bottom">@posicionBaja</span>
