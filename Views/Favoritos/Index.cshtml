@@ -6,22 +6,26 @@
 
 <div class="contenedor-pagina">
 
-    <div class="d-flex justify-content-between
-        align-items-center mb-4">
+    <div class="tarjeta-panel mb-4">
 
-        <div>
-            <h1>Mis favoritos</h1>
+        <div class="d-flex justify-content-between
+            align-items-center">
 
-            <p class="text-muted mb-0">
-                Libros que guardaste para consultar después.
-            </p>
+            <div>
+                <h1>Mis favoritos</h1>
+
+                <p class="text-muted mb-0">
+                    Libros que guardaste para consultar después.
+                </p>
+            </div>
+
+            <a asp-controller="Catalogo"
+               asp-action="Index"
+               class="btn btn-primary">
+                Explorar catálogo
+            </a>
+
         </div>
-
-        <a asp-controller="Catalogo"
-           asp-action="Index"
-           class="btn btn-primary">
-            Explorar catálogo
-        </a>
 
     </div>
 

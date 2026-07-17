@@ -2,198 +2,297 @@
 
 @{
     ViewData["Title"] = "Panel administrativo";
+
+    // Porcentajes calculados a partir de los mismos datos del modelo
+    // (no se agrega información nueva en el resumen, solo se visualiza distinto).
+    int porcentajeDisponibilidad =
+        Model.TotalEjemplaresActivos > 0
+            ? (int)Math.Round(
+                Model.EjemplaresDisponibles * 100.0 /
+                Model.TotalEjemplaresActivos)
+            : 0;
+
+    int porcentajeVencidos =
+        Model.PrestamosPendientes > 0
+            ? (int)Math.Round(
+                Model.PrestamosVencidos * 100.0 /
+                Model.PrestamosPendientes)
+            : 0;
+
+    int porcentajeVencenHoy =
+        Model.PrestamosPendientes > 0
+            ? (int)Math.Round(
+                Model.PrestamosVencenHoy * 100.0 /
+                Model.PrestamosPendientes)
+            : 0;
+
+    // ============================================================
+    // DATOS DE EJEMPLO — SOLO TEMPORAL PARA EL DISEÑO VISUAL.
+    //
+    // Cuando el backend agregue "LibrosMasRentados" y
+    // "LibrosMenosRentados" al PanelAdministrativoViewModel,
+    // borrar estas dos listas y usar en su lugar:
+    //
+    //     Model.LibrosMasRentados
+    //     Model.LibrosMenosRentados
+    //
+    // (deben traer objetos con .Titulo y .TotalPrestamos, igual
+    // que estos de ejemplo, para que el resto del código de abajo
+    // no necesite cambios).
+    // ============================================================
+    var librosMasRentadosEjemplo = new List<(string Titulo, int TotalPrestamos)>
+    {
+        ("Cien años de soledad", 18),
+        ("1984", 15),
+        ("El principito", 12),
+        ("Rayuela", 9),
+        ("Ficciones", 7)
+    };
+
+    var librosMenosRentadosEjemplo = new List<(string Titulo, int TotalPrestamos)>
+    {
+        ("Manual de contabilidad avanzada", 0),
+        ("Historia de la cerámica", 0),
+        ("Introducción al cálculo III", 1),
+        ("Geografía regional", 1),
+        ("Tratado de botánica", 2)
+    };
 }
 
 <div class="contenedor-pagina">
 
-    <div class="d-flex justify-content-between
-        align-items-center mb-4">
+    <!-- Encabezado -->
+    <div class="panel-encabezado mb-4 flex-wrap">
 
-        <div>
-            <h1 class="mb-1">
+        <div class="panel-encabezado-icono">
+            🗂️
+        </div>
+
+        <div class="flex-grow-1">
+            <h1 class="h3 mb-1">
                 Panel administrativo
             </h1>
 
-            <p class="text-muted mb-0">
+            <p class="texto-secundario mb-0">
                 Resumen general de la operación de BookCore.
             </p>
         </div>
 
-        <a asp-controller="Prestamos"
-           asp-action="Crear"
-           class="btn btn-primary">
-            Registrar préstamo
-        </a>
-
     </div>
 
-    <div class="row">
+    <div class="row g-4">
 
-        <div class="col-md-6 col-lg-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body text-center">
+        <!-- ============ BLOQUE 1: Ranking de libros ============ -->
+        <div class="col-lg-3">
 
-                    <h2 class="display-6">
-                        @Model.TotalLibrosActivos
-                    </h2>
+            <div class="tarjeta-panel h-100">
 
-                    <p class="mb-0">
-                        Libros activos
+                <h2 class="h5 mb-1">
+                    Libros más rentados
+                </h2>
+
+                <p class="texto-secundario small mb-3">
+                    Según el total de préstamos registrados.
+                </p>
+
+                @if (!librosMasRentadosEjemplo.Any())
+                {
+                    <p class="texto-secundario small mb-0">
+                        Todavía no hay préstamos registrados.
                     </p>
+                }
+                else
+                {
+                    <div class="mb-4">
+                        @{
+                            int posicion = 1;
+                        }
+                        @foreach (var libro in librosMasRentadosEjemplo)
+                        {
+                            <div class="ranking-item">
+                                <span class="ranking-numero top">@posicion</span>
+                                <span class="ranking-titulo">@libro.Titulo</span>
+                                <span class="ranking-conteo">
+                                    @libro.TotalPrestamos
+                                    préstamo(s)
+                                </span>
+                            </div>
+                            posicion++;
+                        }
+                    </div>
+                }
 
-                </div>
+                <hr />
+
+                <h2 class="h5 mb-1 mt-3">
+                    Libros menos rentados
+                </h2>
+
+                <p class="texto-secundario small mb-3">
+                    Candidatos a revisar o promocionar.
+                </p>
+
+                @if (!librosMenosRentadosEjemplo.Any())
+                {
+                    <p class="texto-secundario small mb-0">
+                        Todavía no hay libros activos registrados.
+                    </p>
+                }
+                else
+                {
+                    <div>
+                        @{
+                            int posicionBaja = 1;
+                        }
+                        @foreach (var libro in librosMenosRentadosEjemplo)
+                        {
+                            <div class="ranking-item">
+                                <span class="ranking-numero bottom">@posicionBaja</span>
+                                <span class="ranking-titulo">@libro.Titulo</span>
+                                <span class="ranking-conteo">
+                                    @libro.TotalPrestamos
+                                    préstamo(s)
+                                </span>
+                            </div>
+                            posicionBaja++;
+                        }
+                    </div>
+                }
+
             </div>
+
         </div>
 
-        <div class="col-md-6 col-lg-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body text-center">
+        <!-- ============ BLOQUE 2: Resumen central ============ -->
+        <div class="col-lg-6">
 
-                    <h2 class="display-6">
-                        @Model.TotalUsuariosActivos
-                    </h2>
+            <!-- Resumen unificado -->
+            <div class="tarjeta-panel panel-resumen mb-4">
 
-                    <p class="mb-0">
-                        Usuarios activos
-                    </p>
-
+                <div class="panel-resumen-item">
+                    <div class="panel-resumen-icono">📚</div>
+                    <div class="kpi-valor">@Model.TotalLibrosActivos</div>
+                    <div class="kpi-etiqueta">Libros activos</div>
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-6 col-lg-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body text-center">
+                <div class="panel-resumen-item acento-info">
+                    <div class="panel-resumen-icono">👥</div>
+                    <div class="kpi-valor">@Model.TotalUsuariosActivos</div>
+                    <div class="kpi-etiqueta">Usuarios activos</div>
+                </div>
 
-                    <h2 class="display-6">
-                        @Model.EjemplaresDisponibles
-                    </h2>
-
-                    <p class="mb-0">
+                <div class="panel-resumen-item acento-verde">
+                    <div class="panel-resumen-icono">📦</div>
+                    <div class="kpi-valor">@Model.EjemplaresDisponibles</div>
+                    <div class="kpi-etiqueta">
                         Ejemplares disponibles
-                    </p>
-
-                    <div class="text-muted small">
-                        De @Model.TotalEjemplaresActivos activos
+                        <span class="texto-secundario">de @Model.TotalEjemplaresActivos activos</span>
                     </div>
-
+                    <div class="kpi-barra">
+                        <span style="width: @(porcentajeDisponibilidad)%;"></span>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-6 col-lg-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body text-center">
-
-                    <h2 class="display-6">
-                        @Model.PrestamosPendientes
-                    </h2>
-
-                    <p class="mb-0">
-                        Préstamos pendientes
-                    </p>
-
+                <div class="panel-resumen-item acento-ambar">
+                    <div class="panel-resumen-icono">⏳</div>
+                    <div class="kpi-valor">@Model.PrestamosPendientes</div>
+                    <div class="kpi-etiqueta">Préstamos pendientes</div>
                 </div>
+
             </div>
-        </div>
 
-    </div>
+            <!-- Atención requerida -->
+            <div class="tarjeta-panel panel-atencion mb-4">
 
-    <div class="row">
+                <div class="panel-atencion-item">
 
-        <div class="col-md-6 mb-3">
-            <div class="card h-100 border-danger">
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between
-                        align-items-center">
-
-                        <div>
-                            <h2 class="h5">
-                                Préstamos vencidos
-                            </h2>
-
-                            <p class="text-muted mb-0">
-                                Requieren seguimiento.
-                            </p>
+                    <div class="anillo-progreso"
+                         style="--valor: @(porcentajeVencidos)%; --color-anillo: #DC3545;">
+                        <div class="anillo-progreso-interior">
+                            @(porcentajeVencidos)%
                         </div>
-
-                        <span class="display-6 text-danger">
-                            @Model.PrestamosVencidos
-                        </span>
-
                     </div>
 
-                    <a asp-controller="Prestamos"
-                       asp-action="Index"
-                       asp-route-estado="Vencido"
-                       class="btn btn-outline-danger mt-3">
-                        Ver préstamos vencidos
-                    </a>
+                    <div class="flex-grow-1">
+                        <h2 class="h6 mb-1">Préstamos vencidos</h2>
+                        <p class="texto-secundario small mb-2">Requieren seguimiento.</p>
 
-                </div>
-            </div>
-        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger">@Model.PrestamosVencidos</span>
 
-        <div class="col-md-6 mb-3">
-            <div class="card h-100 border-warning">
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between
-                        align-items-center">
-
-                        <div>
-                            <h2 class="h5">
-                                Vencen hoy
-                            </h2>
-
-                            <p class="text-muted mb-0">
-                                Préstamos con vencimiento para hoy.
-                            </p>
+                            <a asp-controller="Prestamos"
+                               asp-action="Index"
+                               asp-route-estado="Vencido"
+                               class="btn btn-sm btn-outline-danger">
+                                Ver préstamos vencidos
+                            </a>
                         </div>
-
-                        <span class="display-6">
-                            @Model.PrestamosVencenHoy
-                        </span>
-
                     </div>
 
-                    <a asp-controller="Prestamos"
-                       asp-action="Index"
-                       class="btn btn-outline-warning mt-3">
-                        Revisar préstamos
-                    </a>
+                </div>
+
+                <div class="panel-atencion-item">
+
+                    <div class="anillo-progreso"
+                         style="--valor: @(porcentajeVencenHoy)%; --color-anillo: #E8A33D;">
+                        <div class="anillo-progreso-interior">
+                            @(porcentajeVencenHoy)%
+                        </div>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h2 class="h6 mb-1">Vencen hoy</h2>
+                        <p class="texto-secundario small mb-2">Préstamos con vencimiento para hoy.</p>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge" style="background: #E8A33D;">@Model.PrestamosVencenHoy</span>
+
+                            <a asp-controller="Prestamos"
+                               asp-action="Index"
+                               class="btn btn-sm"
+                               style="border: 1px solid #E8A33D; color: #C9862B;">
+                                Revisar préstamos
+                            </a>
+                        </div>
+                    </div>
 
                 </div>
+
             </div>
-        </div>
 
-    </div>
-
-    <div class="row mt-2">
-
-        <div class="col-lg-8 mb-4">
-
+            <!-- Préstamos recientes -->
             <div class="tarjeta-panel">
 
-                <div class="d-flex justify-content-between
-                    align-items-center mb-3">
+                <div class="d-flex flex-wrap justify-content-between
+                    align-items-center mb-3 gap-2">
 
                     <div>
-                        <h2 class="h4 mb-1">
+                        <h2 class="h5 mb-1">
                             Préstamos recientes
                         </h2>
 
-                        <p class="text-muted mb-0">
+                        <p class="texto-secundario mb-0 small">
                             Últimos cinco movimientos registrados.
                         </p>
                     </div>
 
-                    <a asp-controller="Prestamos"
-                       asp-action="Index"
-                       class="btn btn-sm btn-outline-primary">
-                        Ver historial completo
-                    </a>
+                    <div class="d-flex align-items-center gap-2">
+
+                        <select id="filtroEstadoPrestamo"
+                                class="form-select form-select-sm panel-filtro">
+                            <option value="todos">Todos los estados</option>
+                            <option value="Activo">Activos</option>
+                            <option value="Vencido">Vencidos</option>
+                            <option value="Devuelto">Devueltos</option>
+                        </select>
+
+                        <a asp-controller="Prestamos"
+                           asp-action="Index"
+                           class="btn btn-sm btn-outline-primary text-nowrap">
+                            Ver historial
+                        </a>
+
+                    </div>
 
                 </div>
 
@@ -207,7 +306,8 @@
                 {
                     <div class="table-responsive">
 
-                        <table class="table table-hover align-middle">
+                        <table class="table table-hover align-middle"
+                               id="tablaPrestamosRecientes">
 
                             <thead>
                                 <tr>
@@ -226,7 +326,7 @@
                                     var prestamo
                                     in Model.PrestamosRecientes)
                                 {
-                                    <tr>
+                                    <tr data-estado="@prestamo.Estado">
 
                                         <td>
                                             @prestamo.UsuarioNombreCompleto
@@ -286,6 +386,14 @@
                                     </tr>
                                 }
 
+                                <tr id="filaSinResultados"
+                                    class="d-none">
+                                    <td colspan="6"
+                                        class="text-center texto-secundario py-4">
+                                        No hay préstamos con ese estado.
+                                    </td>
+                                </tr>
+
                             </tbody>
 
                         </table>
@@ -297,43 +405,64 @@
 
         </div>
 
-        <div class="col-lg-4 mb-4">
+        <!-- ============ BLOQUE 3: Acciones ============ -->
+        <div class="col-lg-3">
 
-            <div class="tarjeta-panel">
+            <div class="tarjeta-panel h-100">
 
-                <h2 class="h4 mb-3">
+                <h2 class="h5 mb-3">
                     Acciones rápidas
                 </h2>
 
-                <div class="d-grid gap-2">
+                <a asp-controller="Prestamos"
+                   asp-action="Crear"
+                   class="btn btn-primary w-100 mb-3">
+                    ➕ Registrar préstamo
+                </a>
 
-                    <a asp-controller="Prestamos"
-                       asp-action="Crear"
-                       class="btn btn-primary">
-                        Registrar préstamo
-                    </a>
+                <div class="d-flex flex-column gap-2">
 
                     <a asp-controller="UsuariosBiblioteca"
                        asp-action="Crear"
-                       class="btn btn-outline-primary">
+                       class="accion-columna">
+                        <span class="accion-columna-icono">🧑‍🤝‍🧑</span>
                         Registrar usuario
                     </a>
 
                     <a asp-controller="Libros"
                        asp-action="Crear"
-                       class="btn btn-outline-primary">
+                       class="accion-columna">
+                        <span class="accion-columna-icono">📘</span>
                         Registrar libro
                     </a>
 
                     <a asp-controller="Ejemplares"
                        asp-action="Crear"
-                       class="btn btn-outline-primary">
+                       class="accion-columna">
+                        <span class="accion-columna-icono">🏷️</span>
                         Registrar ejemplar
                     </a>
 
+                    <a asp-controller="Categorias"
+                       asp-action="Crear"
+                       class="accion-columna">
+                        <span class="accion-columna-icono">🗂️</span>
+                        Registrar categoría
+                    </a>
+
+                    <a asp-controller="Autores"
+                       asp-action="Crear"
+                       class="accion-columna">
+                        <span class="accion-columna-icono">✍️</span>
+                        Registrar autor
+                    </a>
+
+                    <hr class="my-1" />
+
                     <a asp-controller="Catalogo"
                        asp-action="Index"
-                       class="btn btn-outline-secondary">
+                       class="accion-columna">
+                        <span class="accion-columna-icono">🌐</span>
                         Abrir catálogo público
                     </a>
 
@@ -346,3 +475,40 @@
     </div>
 
 </div>
+
+@section Scripts {
+    <script>
+        (function() {
+            var filtro = document.getElementById("filtroEstadoPrestamo");
+
+            if (!filtro) {
+                return;
+            }
+
+            filtro.addEventListener("change", function() {
+                var valor = filtro.value;
+                var filas = document.querySelectorAll(
+                    "#tablaPrestamosRecientes tbody tr[data-estado]");
+                var visibles = 0;
+
+                filas.forEach(function(fila) {
+                    var coincide =
+                        valor === "todos" ||
+                        fila.getAttribute("data-estado") === valor;
+
+                    fila.classList.toggle("d-none", !coincide);
+
+                    if (coincide) {
+                        visibles++;
+                    }
+                });
+
+                var filaVacia = document.getElementById("filaSinResultados");
+
+                if (filaVacia) {
+                    filaVacia.classList.toggle("d-none", visibles !== 0);
+                }
+            });
+        })();
+    </script>
+}

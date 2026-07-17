@@ -161,6 +161,7 @@ header {
 
 .contenido-principal {
     flex: 1 0 auto;
+    max-width: 1520px;
 }
 
 .container {
@@ -180,7 +181,7 @@ header {
    ========================================================== */
 
 .tarjeta-panel {
-    background: var(--superficie);
+    background: linear-gradient(135deg, #ffffff 0%, #d7f0c6 45%, #a3db8a 100%);
     border: none;
     border-radius: var(--radius);
     padding: 32px;
@@ -196,6 +197,7 @@ header {
    alineadas visualmente con .tarjeta-panel para que no se vean como
    un componente distinto del resto de la interfaz. */
 .card {
+    background: linear-gradient(135deg, #ffffff 0%, #d7f0c6 45%, #a3db8a 100%);
     border: none;
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
@@ -395,6 +397,18 @@ header {
             text-decoration: underline;
         }
 
+    .footer .btn-outline-light {
+        border-color: rgba(255,255,255,.5);
+    }
+
+        .footer .btn-outline-light:hover,
+        .footer .btn-outline-light:focus {
+            background: var(--green);
+            border-color: var(--green);
+            color: white;
+            text-decoration: none;
+        }
+
 /* ==========================================================
    AYUDAS
    ========================================================== */
@@ -461,17 +475,18 @@ HOME
 
 .hero-bookcore {
     position: relative;
-    padding: 90px 0;
+    padding: 40px 0 24px;
 }
 
 .hero-overlay {
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at top right, rgba(79,163,58,.15), transparent 45%);
+    pointer-events: none;
 }
 
 .min-vh-75 {
-    min-height: 75vh;
+    min-height: 0;
 }
 
 .hero-bookcore h1 {
@@ -484,7 +499,7 @@ HOME
     -webkit-backdrop-filter: blur(18px);
     border: 1px solid rgba(255,255,255,.20);
     border-radius: var(--radius-lg);
-    padding: 40px;
+    padding: 28px;
     color: white;
     box-shadow: var(--shadow-lg);
     transition: .35s;
@@ -499,7 +514,7 @@ HOME
     }
 
 .feature-card {
-    background: white;
+    background: linear-gradient(135deg, #ffffff 0%, #d7f0c6 45%, #a3db8a 100%);
     border-radius: var(--radius-lg);
     padding: 35px;
     text-align: center;
@@ -539,4 +554,389 @@ HOME
 
 .text-success {
     color: #4FA33A !important;
+}
+
+/*=========================================================
+PANEL ADMINISTRATIVO
+=========================================================*/
+
+.panel-encabezado {
+    background: linear-gradient(135deg, #ffffff 0%, #eef8ea 100%);
+    border-radius: var(--radius);
+    padding: 22px 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.panel-encabezado-icono {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    background: linear-gradient(135deg, var(--navy), var(--primary));
+    color: white;
+    flex-shrink: 0;
+}
+
+/* --- Tarjetas KPI --- */
+
+.kpi-card {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow-sm);
+    border-top: 4px solid var(--primary);
+    transition: var(--transition);
+    height: 100%;
+}
+
+    .kpi-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .kpi-card.acento-verde {
+        border-top-color: var(--green);
+    }
+
+    .kpi-card.acento-info {
+        border-top-color: #0EA5B7;
+    }
+
+    .kpi-card.acento-ambar {
+        border-top-color: #E8A33D;
+    }
+
+.kpi-icono {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+    background: rgba(13,82,137,.1);
+    color: var(--primary);
+}
+
+.kpi-card.acento-verde .kpi-icono {
+    background: rgba(79,163,58,.12);
+    color: var(--green);
+}
+
+.kpi-card.acento-info .kpi-icono {
+    background: rgba(14,165,183,.12);
+    color: #0EA5B7;
+}
+
+.kpi-card.acento-ambar .kpi-icono {
+    background: rgba(232,163,61,.16);
+    color: #C9862B;
+}
+
+.kpi-valor {
+    font-family: var(--fuente-titulos);
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+}
+
+.kpi-etiqueta {
+    color: var(--muted);
+    font-size: .92rem;
+    margin-top: 6px;
+}
+
+.kpi-barra {
+    height: 6px;
+    border-radius: 999px;
+    background: #e7edf3;
+    margin-top: 14px;
+    overflow: hidden;
+}
+
+    .kpi-barra span {
+        display: block;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--green);
+    }
+
+/* --- Anillo de progreso circular (CSS puro) --- */
+
+.anillo-progreso {
+    --valor: 0%;
+    --color-anillo: var(--primary);
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: conic-gradient(var(--color-anillo) var(--valor), #e7edf3 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.anillo-progreso-interior {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .85rem;
+    color: var(--navy);
+}
+
+/* --- Tarjetas de alerta (vencidos / vencen hoy) --- */
+
+.alerta-card {
+    background: #ffffff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    height: 100%;
+    border-left: 5px solid var(--primary);
+    transition: var(--transition);
+}
+
+    .alerta-card:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .alerta-card.acento-rojo {
+        border-left-color: #DC3545;
+    }
+
+    .alerta-card.acento-ambar {
+        border-left-color: #E8A33D;
+    }
+
+/* --- Acciones rápidas en mosaico --- */
+
+.accion-rapida {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 18px 10px;
+    border-radius: var(--radius-sm);
+    background: #f6f9f3;
+    border: 1px solid var(--border-suave);
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .82rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+    .accion-rapida:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-sm);
+    }
+
+.accion-rapida-icono {
+    font-size: 22px;
+}
+
+/* --- Encabezado de la tabla de préstamos recientes con filtro --- */
+
+.panel-filtro {
+    max-width: 190px;
+}
+
+/* --- Tira de resumen unificada (reemplaza las tarjetas KPI sueltas) --- */
+
+.panel-resumen {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.panel-resumen-item {
+    flex: 1 1 200px;
+    padding: 6px 28px;
+    position: relative;
+}
+
+    .panel-resumen-item:first-child {
+        padding-left: 4px;
+    }
+
+    .panel-resumen-item:not(:first-child)::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 14%;
+        bottom: 14%;
+        width: 1px;
+        background: var(--border-suave);
+    }
+
+.panel-resumen-icono {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    margin-bottom: 12px;
+    background: rgba(13,82,137,.1);
+    color: var(--primary);
+}
+
+.panel-resumen-item.acento-verde .panel-resumen-icono {
+    background: rgba(79,163,58,.12);
+    color: var(--green);
+}
+
+.panel-resumen-item.acento-info .panel-resumen-icono {
+    background: rgba(14,165,183,.12);
+    color: #0EA5B7;
+}
+
+.panel-resumen-item.acento-ambar .panel-resumen-icono {
+    background: rgba(232,163,61,.16);
+    color: #C9862B;
+}
+
+/* --- Tarjeta de atención combinada (vencidos + vencen hoy en un solo contenedor) --- */
+
+.panel-atencion {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.panel-atencion-item {
+    flex: 1 1 260px;
+    padding: 6px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+}
+
+    .panel-atencion-item:first-child {
+        padding-left: 4px;
+    }
+
+    .panel-atencion-item:not(:first-child)::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10%;
+        bottom: 10%;
+        width: 1px;
+        background: var(--border-suave);
+    }
+
+/* --- Dropdown de acciones rápidas en el encabezado --- */
+
+.panel-dropdown-toggle {
+    background: white;
+    border: 1px solid var(--border-suave);
+    color: var(--navy);
+}
+
+    .panel-dropdown-toggle:hover,
+    .panel-dropdown-toggle:focus {
+        background: var(--light);
+        color: var(--navy);
+    }
+
+.dropdown-item-icono {
+    display: inline-block;
+    width: 22px;
+}
+/* --- Ranking de libros (más / menos prestados) --- */
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-suave);
+}
+
+    .ranking-item:last-child {
+        border-bottom: none;
+    }
+
+.ranking-numero {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .72rem;
+    font-weight: 700;
+    background: var(--light);
+    color: var(--navy);
+    flex-shrink: 0;
+}
+
+    .ranking-numero.top {
+        background: var(--green);
+        color: white;
+    }
+
+    .ranking-numero.bottom {
+        background: #f3e2d0;
+        color: #B5541C;
+    }
+
+.ranking-titulo {
+    flex: 1;
+    font-size: .85rem;
+    line-height: 1.25;
+}
+
+.ranking-conteo {
+    font-size: .72rem;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* --- Columna de acciones (bloque derecho) --- */
+
+.accion-columna {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: #f6f9f3;
+    border: 1px solid var(--border-suave);
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .88rem;
+    transition: var(--transition);
+}
+
+    .accion-columna:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateX(4px);
+    }
+
+.accion-columna-icono {
+    font-size: 18px;
 }
