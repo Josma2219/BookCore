@@ -13,7 +13,7 @@ namespace BookCore.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult SobreNosotros()
         {
             return View();
         }
