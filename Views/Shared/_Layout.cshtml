@@ -1,6 +1,21 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 
+@{
+    // Controladores que forman parte de la zona de administración.
+    // Ahí se aplica la tipografía "seria" (ver .zona-admin en site.css).
+    var controladoresAdmin = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "Panel", "Libros", "Autores", "Categorias",
+        "Ejemplares", "UsuariosBiblioteca", "Prestamos"
+    };
+
+    var controladorActual =
+        ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+
+    var esZonaAdmin = controladoresAdmin.Contains(controladorActual);
+}
+
 <head>
     <meta charset="utf-8" />
 
@@ -19,15 +34,20 @@
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <link rel="stylesheet"
-          href="~/css/site.css"
-          asp-append-version="true" />
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
     <link rel="stylesheet"
           href="~/BookCore.styles.css"
           asp-append-version="true" />
+          
+          <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    
 </head>
 
-<body>
+<body class="@(esZonaAdmin ? "zona-admin" : "")">
 
     <header>
 
@@ -38,11 +58,15 @@
 
             <div class="container-fluid">
 
-                <a class="navbar-brand fw-bold"
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2"
                    asp-controller="Home"
                    asp-action="Index">
 
-                    Book<span class="text-success">Core</span>
+                    <span class="navbar-logo-chip">
+                        <img src="~/images/logo-bookcore-compacto.png"
+                             alt="BookCore"
+                             class="navbar-logo" />
+                    </span>
 
                 </a>
 
@@ -356,25 +380,145 @@
 
     <footer class="footer">
 
-        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div class="container-fluid footer-container">
 
-            <span class="pie-marca">
-                📚 BookCore
-            </span>
+            <div class="footer-columnas">
 
-            <span>
-                &copy; @DateTime.Now.Year - Biblioteca Inteligente
-            </span>
+                <div class="footer-columna footer-columna-marca">
 
-            <a asp-controller="Home"
-               asp-action="MoonByte"
-               class="btn btn-sm btn-outline-light">
-                MoonByte
-            </a>
+                    <span class="navbar-logo-chip mb-3 d-inline-flex">
+                        <img src="~/images/logo-bookcore-compacto.png"
+                             alt="BookCore"
+                             class="footer-logo" />
+                    </span>
+
+                    <p>
+                        Una biblioteca moderna para encontrar, consultar
+                        y solicitar en préstamo miles de libros de forma
+                        simple y organizada.
+                    </p>
+
+                    <div class="footer-redes">
+
+                        <a href="#" class="footer-red-icono" title="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <a href="#" class="footer-red-icono" title="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="#" class="footer-red-icono" title="X (Twitter)">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+
+                        <a href="#" class="footer-red-icono" title="TikTok">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+
+                        <a href="#" class="footer-red-icono" title="YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="footer-columna">
+                    <h3>Explorar</h3>
+                    <ul>
+                        <li>
+                            <a asp-controller="Home" asp-action="Index">
+                                Inicio
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Catalogo" asp-action="Index">
+                                Catálogo
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Home" asp-action="SobreNosotros">
+                                Sobre Nosotros
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-columna">
+                    <h3>Mi cuenta</h3>
+                    <ul>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            @if (User.IsInRole("Usuario"))
+                            {
+                                <li>
+                                    <a asp-controller="MiCuenta" asp-action="Index">
+                                        Mi cuenta
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Favoritos" asp-action="Index">
+                                        Mis favoritos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="MiCuenta" asp-action="Historial">
+                                        Mi historial
+                                    </a>
+                                </li>
+                            }
+
+                            @if (User.IsInRole("Administrador"))
+                            {
+                                <li>
+                                    <a asp-controller="Panel" asp-action="Index">
+                                        Panel administrativo
+                                    </a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-controller="Cuenta" asp-action="IniciarSesion">
+                                    Iniciar sesión
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="footer-columna">
+                    <h3>Tecnología</h3>
+                    <ul>
+                        <li>
+                            <a asp-controller="Home" asp-action="MoonByte">
+                                MoonByte
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-inferior">
+
+                <span>
+                    &copy; @DateTime.Now.Year - Biblioteca Inteligente
+                </span>
+
+                <span class="d-flex align-items-center gap-2">
+                    Hecho por
+                    <img src="~/images/logo-moonbyte.png"
+                         alt="MoonByte"
+                         class="footer-logo" />
+                    MoonByte
+                </span>
+
+            </div>
 
         </div>
-
-    </footer>
 
     </footer>
 

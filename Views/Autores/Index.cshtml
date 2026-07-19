@@ -34,10 +34,10 @@
                 <table class="table table-hover align-middle">
                     <thead>
                         <tr>
-                            <th>Nombre completo</th>
-                            <th>Nacionalidad</th>
-                            <th>Fecha de nacimiento</th>
-                            <th>Estado</th>
+                            <th>Nombre completo <i class="bi bi-arrow-down-up orden-columna"></i></th>
+                            <th class="col-oculta-angosta">Nacionalidad <i class="bi bi-arrow-down-up orden-columna"></i></th>
+                            <th>Fecha de nacimiento <i class="bi bi-arrow-down-up orden-columna"></i></th>
+                            <th>Estado <i class="bi bi-arrow-down-up orden-columna"></i></th>
                             <th class="text-end">Acciones</th>
                         </tr>
                     </thead>
@@ -47,12 +47,17 @@
                         {
                             <tr>
                                 <td>
-                                    <strong>
-                                        @autor.NombreCompleto
-                                    </strong>
+                                    <div class="libro-celda">
+                                        <span class="icono-libro-mini c3">
+                                            <i class="bi bi-person-vcard"></i>
+                                        </span>
+                                        <strong>
+                                            @autor.NombreCompleto
+                                        </strong>
+                                    </div>
                                 </td>
 
-                                <td>
+                                <td class="col-oculta-angosta">
                                     @if (string.IsNullOrWhiteSpace(
                                         autor.Nacionalidad))
                                     {
@@ -68,7 +73,10 @@
                                 <td>
                                     @if (autor.FechaNacimiento.HasValue)
                                     {
-                                        @(autor.FechaNacimiento.Value.ToString("dd/MM/yyyy"))
+                                        <span class="fecha-con-icono">
+                                            <i class="bi bi-calendar3"></i>
+                                            @(autor.FechaNacimiento.Value.ToString("dd/MM/yyyy"))
+                                        </span>
                                     }
                                     else
                                     {
@@ -81,38 +89,42 @@
                                 <td>
                                     @if (autor.Activo)
                                     {
-                                        <span class="badge bg-success">
+                                        <span class="estado-punto activo">
                                             Activo
                                         </span>
                                     }
                                     else
                                     {
-                                        <span class="badge bg-secondary">
+                                        <span class="estado-punto inactivo">
                                             Inactivo
                                         </span>
                                     }
                                 </td>
 
                                 <td>
-                                    <div class="d-flex justify-content-end gap-2">
+                                    <div class="acciones-tabla">
+
                                         <a asp-action="Detalle"
                                            asp-route-id="@autor.AutorId"
-                                           class="btn btn-sm btn-outline-info">
-                                            Detalle
+                                           class="accion-icono ver"
+                                           title="Ver detalle">
+                                            <i class="bi bi-eye"></i>
                                         </a>
 
                                         <a asp-action="Editar"
                                            asp-route-id="@autor.AutorId"
-                                           class="btn btn-sm btn-outline-primary">
-                                            Editar
+                                           class="accion-icono editar"
+                                           title="Editar">
+                                            <i class="bi bi-pencil"></i>
                                         </a>
 
                                         @if (autor.Activo)
                                         {
                                             <a asp-action="Eliminar"
                                                asp-route-id="@autor.AutorId"
-                                               class="btn btn-sm btn-outline-danger">
-                                                Eliminar
+                                               class="accion-icono eliminar"
+                                               title="Eliminar">
+                                                <i class="bi bi-trash"></i>
                                             </a>
                                         }
                                     </div>

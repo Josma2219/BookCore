@@ -4,6 +4,32 @@
     ViewData["Title"] = "Préstamos";
 }
 
+@functions {
+    string ObtenerIniciales(string nombreCompleto)
+    {
+        var partes = (nombreCompleto ?? "")
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        if (partes.Length == 0)
+        {
+            return "?";
+        }
+
+        if (partes.Length == 1)
+        {
+            return partes[0].Substring(0, 1).ToUpper();
+        }
+
+        return (partes[0].Substring(0, 1) + partes[1].Substring(0, 1)).ToUpper();
+    }
+
+    string ObtenerClaseColor(int indice)
+    {
+        string[] clases = { "c1", "c2", "c3", "c4", "c5" };
+        return clases[indice % clases.Length];
+    }
+}
+
 <div class="contenedor-pagina">
     <div class="tarjeta-panel">
 
@@ -109,46 +135,70 @@
 
                     <thead>
                         <tr>
-                            <th>Usuario</th>
-                            <th>Libro</th>
-                            <th>Ejemplar</th>
-                            <th>Préstamo</th>
-                            <th>Vencimiento</th>
-                            <th>Estado</th>
+                            <th>Usuario <i class="bi bi-arrow-down-up orden-columna"></i></th>
+                            <th>Libro <i class="bi bi-arrow-down-up orden-columna"></i></th>
+                            <th class="col-oculta-angosta">Ejemplar <i class="bi bi-arrow-down-up orden-columna"></i></th>
+                            <th>Préstamo <i class="bi bi-arrow-down-up orden-columna"></i></th>
+                            <th>Vencimiento <i class="bi bi-arrow-down-up orden-columna"></i></th>
+                            <th>Estado <i class="bi bi-arrow-down-up orden-columna"></i></th>
                             <th class="text-end">Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
+                        @{
+                            int filaIndice = 0;
+                        }
+
                         @foreach (var prestamo in Model.Prestamos)
                         {
+                            var claseColor = ObtenerClaseColor(filaIndice);
+
                             <tr>
                                 <td>
-                                    <strong>
-                                        @prestamo.UsuarioNombreCompleto
-                                    </strong>
-
-                                    <div class="text-muted small">
-                                        @prestamo.UsuarioCedula
+                                    <div class="usuario-celda">
+                                        <span class="avatar-iniciales @claseColor">
+                                            @ObtenerIniciales(prestamo.UsuarioNombreCompleto)
+                                        </span>
+                                        <div>
+                                            <div>@prestamo.UsuarioNombreCompleto</div>
+                                            <div class="texto-secundario">
+                                                <i class="bi bi-person-vcard"></i>
+                                                @prestamo.UsuarioCedula
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
 
                                 <td>
-                                    @prestamo.LibroTitulo
+                                    <div class="libro-celda">
+                                        <span class="icono-libro-mini @claseColor">
+                                            <i class="bi bi-book"></i>
+                                        </span>
+                                        @prestamo.LibroTitulo
+                                    </div>
+                                </td>
+
+                                <td class="col-oculta-angosta">
+                                    <span class="pastilla-codigo">
+                                        @prestamo.EjemplarCodigo
+                                    </span>
                                 </td>
 
                                 <td>
-                                    @prestamo.EjemplarCodigo
+                                    <span class="fecha-con-icono">
+                                        <i class="bi bi-calendar3"></i>
+                                        @(prestamo.FechaPrestamo.ToString(
+                                            "dd/MM/yyyy HH:mm"))
+                                    </span>
                                 </td>
 
                                 <td>
-                                    @(prestamo.FechaPrestamo.ToString(
-                                        "dd/MM/yyyy HH:mm"))
-                                </td>
-
-                                <td>
-                                    @(prestamo.FechaVencimiento.ToString(
-                                        "dd/MM/yyyy"))
+                                    <span class="fecha-con-icono">
+                                        <i class="bi bi-calendar-event"></i>
+                                        @(prestamo.FechaVencimiento.ToString(
+                                            "dd/MM/yyyy"))
+                                    </span>
 
                                     @if (prestamo.DiasAtraso > 0)
                                     {
@@ -162,19 +212,19 @@
                                     @switch (prestamo.Estado)
                                     {
                                         case "Activo":
-                                            <span class="badge bg-primary">
+                                            <span class="estado-punto activo">
                                                 Activo
                                             </span>
                                             break;
 
                                         case "Vencido":
-                                            <span class="badge bg-danger">
+                                            <span class="estado-punto vencido">
                                                 Vencido
                                             </span>
                                             break;
 
                                         default:
-                                            <span class="badge bg-success">
+                                            <span class="estado-punto devuelto">
                                                 Devuelto
                                             </span>
                                             break;
@@ -182,26 +232,30 @@
                                 </td>
 
                                 <td>
-                                    <div class="d-flex justify-content-end gap-2">
+                                    <div class="acciones-tabla">
 
                                         <a asp-action="Detalle"
                                            asp-route-id="@prestamo.PrestamoId"
-                                           class="btn btn-sm btn-outline-info">
-                                            Detalle
+                                           class="accion-icono ver"
+                                           title="Ver detalle">
+                                            <i class="bi bi-eye"></i>
                                         </a>
 
                                         @if (prestamo.PuedeDevolverse)
                                         {
                                             <a asp-action="Devolver"
                                                asp-route-id="@prestamo.PrestamoId"
-                                               class="btn btn-sm btn-outline-success">
-                                                Devolver
+                                               class="accion-icono exito"
+                                               title="Registrar devolución">
+                                                <i class="bi bi-arrow-return-left"></i>
                                             </a>
                                         }
 
                                     </div>
                                 </td>
                             </tr>
+
+                            filaIndice++;
                         }
                     </tbody>
 

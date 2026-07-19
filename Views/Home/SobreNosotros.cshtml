@@ -1,13 +1,300 @@
-﻿@{
+@{
     ViewData["Title"] = "Sobre Nosotros";
 }
 
 <div class="contenedor-pagina">
-    <div class="tarjeta-panel">
-        <h1>@ViewData["Title"]</h1>
 
-        <p class="texto-secundario mb-0">
-            Acerca de BookCore. Pendiente de diseño final.
-        </p>
+    <!-- Portada -->
+    <div class="marca-portada mb-4">
+
+        <div class="marca-portada-contenido">
+
+            <div class="marca-portada-logo-chip">
+                <img src="~/images/logo-bookcore.png"
+                     alt="BookCore" />
+            </div>
+
+            <span class="marca-portada-etiqueta">
+                Sobre BookCORE
+            </span>
+
+            <h1>BookCORE</h1>
+
+            <p class="marca-portada-eslogan">
+                "Donde el conocimiento cobra vida."
+            </p>
+
+            <p class="descripcion">
+                BookCORE es una biblioteca moderna dedicada a facilitar el
+                acceso al conocimiento, la educación y la cultura mediante
+                una gestión organizada, eficiente y accesible de sus
+                recursos bibliográficos. Buscamos ser un punto de encuentro
+                entre las personas y el conocimiento, promoviendo el hábito
+                de la lectura, el aprendizaje continuo y la investigación.
+            </p>
+
+            <div class="marca-chips-eslogan">
+                <span>Abriendo las puertas al conocimiento</span>
+                <span>Tu espacio para aprender, descubrir y crecer</span>
+                <span>Conectando personas con el conocimiento</span>
+                <span>Cada libro, una nueva oportunidad para aprender</span>
+                <span>El corazón del aprendizaje y la lectura</span>
+            </div>
+
+        </div>
+
     </div>
+
+    <!-- Misión / Visión -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+            <div class="mv-card">
+                <div class="mv-icono"><i class="bi bi-bullseye"></i></div>
+                <h2 class="h4">Misión</h2>
+                <p class="mb-0">
+                    Brindar acceso organizado, confiable y oportuno a
+                    recursos bibliográficos que promuevan el aprendizaje,
+                    la investigación y el desarrollo cultural de nuestros
+                    usuarios, ofreciendo un servicio de calidad basado en
+                    la atención, la innovación y el compromiso con el
+                    conocimiento.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mv-card acento-verde">
+                <div class="mv-icono"><i class="bi bi-binoculars"></i></div>
+                <h2 class="h4">Visión</h2>
+                <p class="mb-0">
+                    Ser una biblioteca reconocida por su excelencia en la
+                    gestión de la información, convirtiéndose en un
+                    referente de apoyo académico, cultural y educativo
+                    mediante servicios accesibles, eficientes e
+                    innovadores que inspiren el aprendizaje permanente.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Valores institucionales -->
+    <div class="tarjeta-panel mb-4">
+
+        <h2 class="h4 mb-1">Valores institucionales</h2>
+        <p class="texto-secundario mb-4">
+            Los principios que guían cada decisión dentro de BookCORE.
+        </p>
+
+        <div class="timeline-valores">
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-book-half"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Compromiso con el conocimiento</h3>
+                    <p>
+                        Promovemos el acceso libre y organizado a la
+                        información como base para el aprendizaje y el
+                        crecimiento personal.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-folder2-open"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Responsabilidad</h3>
+                    <p>
+                        Administramos nuestros recursos bibliográficos con
+                        orden, transparencia y compromiso, garantizando su
+                        conservación y disponibilidad.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-people"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Respeto</h3>
+                    <p>
+                        Fomentamos un ambiente inclusivo donde todas las
+                        personas puedan acceder al conocimiento en
+                        igualdad de condiciones.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-star"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Excelencia en el servicio</h3>
+                    <p>
+                        Nos esforzamos por ofrecer una atención amable,
+                        eficiente y orientada a satisfacer las
+                        necesidades de nuestros usuarios.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-lightbulb"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Innovación</h3>
+                    <p>
+                        Buscamos mejorar continuamente nuestros procesos
+                        y servicios para ofrecer una experiencia moderna
+                        y accesible.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-shield-check"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Integridad</h3>
+                    <p>
+                        Actuamos con ética, honestidad y transparencia en
+                        la gestión de la biblioteca y de la información.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Personalidad de la marca -->
+    <div class="tarjeta-panel mb-4">
+
+        <h2 class="h4 mb-1">Personalidad de la marca</h2>
+        <p class="texto-secundario mb-4">
+            Así es como los usuarios perciben a BookCORE.
+        </p>
+
+        <div class="row g-3">
+
+            <div class="col-md-4 col-lg">
+                <div class="rasgo-card">
+                    <div class="rasgo-icono"><i class="bi bi-lock"></i></div>
+                    <h3 class="h6">Confiable</h3>
+                    <p class="texto-secundario small mb-0">
+                        Un lugar seguro y organizado donde siempre se
+                        encuentra información confiable.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg">
+                <div class="rasgo-card">
+                    <div class="rasgo-icono"><i class="bi bi-archive"></i></div>
+                    <h3 class="h6">Organizada</h3>
+                    <p class="texto-secundario small mb-0">
+                        Cada libro, categoría y recurso está clasificado
+                        para facilitar la búsqueda.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg">
+                <div class="rasgo-card">
+                    <div class="rasgo-icono"><i class="bi bi-globe2"></i></div>
+                    <h3 class="h6">Accesible</h3>
+                    <p class="texto-secundario small mb-0">
+                        Cualquier persona puede acceder al conocimiento
+                        de manera sencilla e inclusiva.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg">
+                <div class="rasgo-card">
+                    <div class="rasgo-icono"><i class="bi bi-stars"></i></div>
+                    <h3 class="h6">Inspiradora</h3>
+                    <p class="texto-secundario small mb-0">
+                        Motiva a descubrir nuevos temas y fortalecer el
+                        interés por la lectura.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg">
+                <div class="rasgo-card">
+                    <div class="rasgo-icono"><i class="bi bi-rocket-takeoff"></i></div>
+                    <h3 class="h6">Innovadora</h3>
+                    <p class="texto-secundario small mb-0">
+                        Incorpora métodos modernos de organización y
+                        atención al usuario.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Público objetivo -->
+    <div class="tarjeta-panel mb-4">
+
+        <h2 class="h4 mb-1">¿Para quién es BookCORE?</h2>
+        <p class="texto-secundario mb-3">
+            Nuestra comunidad de lectores e investigadores.
+        </p>
+
+        <div class="chip-nube">
+            <span class="chip"><i class="bi bi-mortarboard"></i> Estudiantes de secundaria y universidad</span>
+            <span class="chip"><i class="bi bi-easel"></i> Docentes e investigadores</span>
+            <span class="chip"><i class="bi bi-briefcase"></i> Profesionales que requieren material de consulta</span>
+            <span class="chip"><i class="bi bi-book"></i> Amantes de la lectura y el aprendizaje continuo</span>
+            <span class="chip"><i class="bi bi-bank"></i> Instituciones educativas y culturales</span>
+        </div>
+
+    </div>
+
+    <!-- Ubicación -->
+    <div class="tarjeta-panel mb-4">
+
+        <h2 class="h4 mb-1">
+            <i class="bi bi-geo-alt-fill text-success"></i>
+            Visítanos
+        </h2>
+
+        <p class="texto-secundario mb-3">
+            Te esperamos en nuestra sede física.
+            <!-- TODO: reemplazar por la dirección real de la biblioteca -->
+            San José, Costa Rica.
+        </p>
+
+        <div class="mapa-ubicacion">
+            <iframe
+                src="https://maps.google.com/maps?q=San+Jos%C3%A9%2C+Costa+Rica&z=15&output=embed"
+                width="100%"
+                height="380"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+    </div>
+
+    <!-- Enlace cruzado hacia MoonByte -->
+    <div class="enlace-cruzado">
+
+        <div class="enlace-cruzado-texto">
+            <h2 class="h5 mb-1">¿Quién construyó esta plataforma?</h2>
+            <p>
+                BookCORE funciona gracias a la tecnología de MoonByte.
+            </p>
+        </div>
+
+        <a asp-controller="Home"
+           asp-action="MoonByte"
+           class="btn btn-success">
+            Conocer a MoonByte
+        </a>
+
+    </div>
+
 </div>

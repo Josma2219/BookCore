@@ -1,13 +1,200 @@
-﻿@{
+@{
     ViewData["Title"] = "MoonByte";
 }
 
 <div class="contenedor-pagina">
-    <div class="tarjeta-panel">
-        <h1>@ViewData["Title"]</h1>
 
-        <p class="texto-secundario mb-0">
-            Página informativa sobre MoonByte. Pendiente de diseño final.
-        </p>
+    <!-- Portada -->
+    <div class="marca-portada mb-4">
+
+        <div class="marca-portada-contenido">
+
+            <div class="marca-portada-logo-chip">
+                <img src="~/images/logo-moonbyte.png"
+                     alt="MoonByte" />
+            </div>
+
+            <span class="marca-portada-etiqueta">
+                La tecnología detrás de BookCORE
+            </span>
+
+            <h1>MoonByte</h1>
+
+            <p class="marca-portada-eslogan">
+                "Soluciones inteligentes, progresando en un mundo digital."
+            </p>
+
+            <p class="descripcion">
+                MoonByte es una empresa dedicada al desarrollo de
+                soluciones tecnológicas para la administración y
+                modernización de bibliotecas. Nuestra plataforma web
+                centraliza la gestión de libros, autores, categorías,
+                préstamos, devoluciones y usuarios en un entorno
+                intuitivo, seguro y eficiente — reemplazando los procesos
+                manuales por un sistema inteligente que optimiza el
+                control del inventario bibliográfico.
+            </p>
+
+        </div>
+
     </div>
+
+    <!-- Misión / Visión -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+            <div class="mv-card">
+                <div class="mv-icono"><i class="bi bi-bullseye"></i></div>
+                <h2 class="h4">Misión</h2>
+                <p class="mb-0">
+                    Desarrollar soluciones tecnológicas innovadoras que
+                    simplifiquen la gestión integral de bibliotecas
+                    mediante herramientas digitales eficientes, intuitivas
+                    y seguras, facilitando el acceso al conocimiento y
+                    optimizando los procesos administrativos.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mv-card acento-verde">
+                <div class="mv-icono"><i class="bi bi-binoculars"></i></div>
+                <h2 class="h4">Visión</h2>
+                <p class="mb-0">
+                    Ser la plataforma líder en gestión inteligente de
+                    bibliotecas en Latinoamérica, reconocida por su
+                    innovación, confiabilidad y facilidad de uso,
+                    impulsando la transformación digital de instituciones
+                    dedicadas a la educación y la difusión del conocimiento.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Personalidad de la marca -->
+    <div class="tarjeta-panel mb-4">
+
+        <h2 class="h4 mb-1">Personalidad de la marca</h2>
+        <p class="texto-secundario mb-4">
+            Cinco pilares que definen cómo trabajamos.
+        </p>
+
+        <div class="timeline-valores">
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-briefcase"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Profesional</h3>
+                    <p>
+                        Transmitimos confianza mediante una plataforma
+                        estable, organizada y desarrollada bajo buenas
+                        prácticas de ingeniería de software.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-cpu"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Inteligente</h3>
+                    <p>
+                        Nuestra identidad refleja innovación,
+                        automatización y soluciones tecnológicas que
+                        facilitan el trabajo diario de bibliotecarios y
+                        administradores.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-lock"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Confiable</h3>
+                    <p>
+                        La seguridad, integridad y disponibilidad de los
+                        datos forman parte esencial de nuestra identidad,
+                        porque la información es uno de los activos más
+                        importantes de una biblioteca.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-display"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Moderna</h3>
+                    <p>
+                        Diseñamos experiencias visuales limpias, intuitivas
+                        y adaptables a cualquier dispositivo, manteniendo
+                        una imagen tecnológica y contemporánea.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-medallon"><i class="bi bi-globe2"></i></div>
+                <div class="timeline-contenido">
+                    <h3>Accesible</h3>
+                    <p>
+                        Creemos que el conocimiento debe estar al alcance
+                        de todos. Nuestra plataforma está diseñada para
+                        ser sencilla de utilizar, tanto por administradores
+                        como por usuarios finales.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Valores corporativos -->
+    <div class="tarjeta-panel mb-4">
+
+        <h2 class="h4 mb-1">Valores corporativos</h2>
+        <p class="texto-secundario mb-3">
+            Los principios que guían el desarrollo de nuestra tecnología.
+        </p>
+
+        <div class="chip-nube">
+            <span class="chip"><i class="bi bi-lightbulb"></i> Innovación tecnológica</span>
+            <span class="chip"><i class="bi bi-folder2-open"></i> Organización y eficiencia</span>
+            <span class="chip"><i class="bi bi-book-half"></i> Compromiso con el conocimiento</span>
+            <span class="chip"><i class="bi bi-search"></i> Transparencia</span>
+            <span class="chip"><i class="bi bi-shield-lock"></i> Seguridad de la información</span>
+            <span class="chip"><i class="bi bi-star"></i> Calidad del servicio</span>
+            <span class="chip"><i class="bi bi-graph-up-arrow"></i> Mejora continua</span>
+            <span class="chip"><i class="bi bi-globe2"></i> Accesibilidad para todos los usuarios</span>
+        </div>
+
+    </div>
+
+    <!-- Eslogan -->
+    <div class="tarjeta-panel mb-4">
+        <div class="eslogan-banner">
+            <div class="comilla">“</div>
+            <h2>Soluciones inteligentes, progresando en un mundo digital.</h2>
+        </div>
+    </div>
+
+    <!-- Enlace cruzado hacia BookCore -->
+    <div class="enlace-cruzado">
+
+        <div class="enlace-cruzado-texto">
+            <h2 class="h5 mb-1">Conocé el producto</h2>
+            <p>
+                BookCORE es la plataforma que desarrollamos para
+                bibliotecas modernas.
+            </p>
+        </div>
+
+        <a asp-controller="Catalogo"
+           asp-action="Index"
+           class="btn btn-success">
+            Explorar catálogo
+        </a>
+
+    </div>
+
 </div>
