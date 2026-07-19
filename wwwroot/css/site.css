@@ -142,14 +142,26 @@ body::after {
 
 
 .navbar {
+    position: relative;
+    isolation: isolate;
+    z-index: 1030;
     margin: 20px;
     border-radius: 22px !important;
-    background: rgba(255,255,255,.12) !important;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: transparent !important;
     border: 1px solid var(--borde-claro);
     box-shadow: var(--shadow-md);
 }
+
+    .navbar::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        background: rgba(255,255,255,.12);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
 
 .navbar-brand {
     font-family: var(--fuente-titulos);
@@ -376,6 +388,7 @@ body::after {
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-md);
     padding: 8px;
+    z-index: 1050;
 }
 
 .dropdown-item {
@@ -949,6 +962,11 @@ PÁGINAS INSTITUCIONALES (Sobre Nosotros / MoonByte)
 
 .marca-portada {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
     border-radius: var(--radius-lg);
     padding: 56px 40px;
     overflow: hidden;
@@ -986,7 +1004,33 @@ PÁGINAS INSTITUCIONALES (Sobre Nosotros / MoonByte)
 .marca-portada-contenido {
     position: relative;
     z-index: 1;
+    flex: 1 1 480px;
     max-width: 720px;
+}
+
+.marca-portada-logo-grande {
+    position: relative;
+    z-index: 1;
+    flex: 0 1 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+}
+
+    .marca-portada-logo-grande img {
+        display: block;
+        max-width: 100%;
+        width: 320px;
+        height: auto;
+        margin: 0 auto;
+        filter: drop-shadow(0 15px 35px rgba(0,0,0,.35));
+    }
+
+@media (max-width: 991.98px) {
+    .marca-portada-logo-grande {
+        display: none;
+    }
 }
 
 .marca-portada-etiqueta {
